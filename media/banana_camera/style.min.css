@@ -1,0 +1,306 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt,
+var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;padding: 0;border: 0;font: inherit;font - size: 100 % ;vertical - align: baseline
+}
+html {
+    line - height: 1
+}
+ol, ul {
+    list - style: none
+}
+table {
+    border - collapse: collapse;
+    border - spacing: 0
+}
+caption, th, td {
+    text - align: left;
+    font - weight: normal;
+    vertical - align: middle
+}
+q, blockquote {
+    quotes: none
+}
+q: before, q: after, blockquote: before, blockquote: after {
+    content: "";content: none
+}
+a img {
+    border: 0
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+    display: block
+}
+html, body {
+    height: 100 %
+}
+body {
+    font - family: Microsoft JhengHei
+}
+h4.title {
+    width: 173 px;background - image: url(.. / img / titleBg.png);background - repeat: no - repeat;text - align: center;line - height: 36 px;padding - top: 21 px;font - size: 16 px;font - weight: bold;margin - left: 20 px;margin - top: 20 px
+}#
+header {
+    position: relative;height: 321 px;width: 100 % ;overflow: hidden;background - image: url(.. / img / headBg.png);z - index: 2
+}#
+header.imgHead {
+    width: 1400 px;position: absolute;left: 50 % ;margin - left: -700 px
+}#
+header.fbLike {
+    width: 40 px;position: absolute;top: 250 px;left: 50 % ;margin - left: 310 px
+}#
+footer {
+    position: relative;height: 80 px;background - color: #3c180a;z-index:2}# footer p {
+        font - size: 13 px;
+        line - height: 80 px;
+        color: #FFF;
+        width: 1000 px;
+        position: relative;
+        left: 50 % ;
+        margin - left: -500 px
+    }
+    #body {
+        min - height: 100 % ;
+        margin - top: -321 px;
+        margin - bottom: -80 px;
+        background - image: url(.. / img / bg.png);
+        text-align: center
+    }
+    #view {
+        width: 1000px; padding-top: 321px; padding-bottom: 80px
+    }#
+    fg {
+        position: absolute;bottom: 0;left: 50 % ;margin - left: -500 px
+    }#
+    ad {
+        position: absolute;top: 321 px;right: 0;width: 200 px
+    }#
+    actionBox {
+        position: absolute;top: 321 px;left: 0;width: 280 px;z - index: 1
+    }#
+    showBox {
+        padding - right: 200 px;
+        padding - left: 280 px;
+        min - height: 1060 px;
+        padding - bottom: 350 px;
+        position: relative
+    }#
+    dropUploadImg {
+        width: 200 px;height: 200 px;background - color: #ff0
+    }#
+    uploadImgBackUp {
+        display: none
+    }#
+    imgBox {
+        width: 480 px;margin: 0;padding: 20 px; - moz - user - select: none; - webkit - user - select: none; - ms - user - select: none; - khtml - user - select: none;user - select: none
+    }#
+    imgBox.view {
+        position: relative
+    }#
+    imgBox.view.stickerBox {
+        position: absolute;top: 0;left: 0;width: 100 % ;height: 100 % ;overflow: hidden
+    }#
+    imgBox.view.stickerBox img.frame {
+        position: absolute;width: 80 px;height: 80 px;z - index: 0
+    }#
+    imgBox.view.stickerBox img.frame.all {
+        left: 0;top: 0
+    }
+    imgBox.view.stickerBox img.frame.tl {
+        left: 0;top: 0
+    }#
+    imgBox.view.stickerBox img.frame.t {
+        left: 80 px;top: 0
+    }#
+    imgBox.view.stickerBox img.frame.tr {
+        right: 0;top: 0
+    }#
+    imgBox.view.stickerBox img.frame.l {
+        left: 0;top: 80 px
+    }#
+    imgBox.view.stickerBox img.frame.r {
+        right: 0;top: 80 px
+    }#
+    imgBox.view.stickerBox img.frame.bl {
+        left: 0;bottom: 0
+    }#
+    imgBox.view.stickerBox img.frame.b {
+        left: 80 px;bottom: 0
+    }#
+    imgBox.view.stickerBox img.frame.br {
+        right: 0;bottom: 0
+    }#
+    imgBox.view.stickerBox div.sticker {
+        position: absolute;border: transparent thin solid;z - index: 1
+    }#
+    imgBox.view.stickerBox div.sticker span {
+        display: none
+    }#
+    imgBox.view.stickerBox div.sticker img {
+        width: 100 %
+    }#
+    imgBox.view.stickerBox div.sticker.focus {
+        border - color: #000;z-index:2}# imgBox.view.stickerBox div.sticker.focus span {
+            display: block;position: absolute
+        }#
+        imgBox.view.stickerBox div.sticker.focus span.tl, #imgBox.view.stickerBox div.sticker.focus span.tr, #imgBox.view.stickerBox div.sticker.focus span.bl, #imgBox.view.stickerBox div.sticker.focus span.br {
+                width: 4 px;height: 4 px;border: #FFF 3 px solid;background - color: #000}# imgBox.view.stickerBox div.sticker.focus span.tl {
+                    top: -5 px;left: -5 px;cursor: nw - resize
+                }#
+                imgBox.view.stickerBox div.sticker.focus span.tr {
+                    top: -5 px;right: -5 px;cursor: ne - resize
+                }#
+                imgBox.view.stickerBox div.sticker.focus span.bl {
+                    bottom: -5 px;left: -5 px;cursor: sw - resize
+                }#
+                imgBox.view.stickerBox div.sticker.focus span.br {
+                    bottom: -5 px;right: -5 px;cursor: se - resize
+                }#
+                imgBox.view.stickerBox div.sticker.focus span.delete {
+                    width: 20 px;height: 20 px;background - color: #F00;color: #FFF;top: 0;right: 0;text - align: center;line - height: 20 px;cursor: pointer; - moz - border - radius - bottomleft: 5 px; - webkit - border - bottom - left - radius: 5 px;border - bottom - left - radius: 5 px
+                }#
+                perviewDownloadShare {
+                    position: absolute;width: 120 px;padding: 10 px;background - color: #FFF;bottom: 50 px;display: none;z - index: 10; - webkit - border - radius: 10 px; - moz - border - radius: 10 px; - ms - border - radius: 10 px; - o - border - radius: 10 px;border - radius: 10 px
+                }#
+                perviewDownloadShare: after {
+                    content: '';display: block;position: absolute;bottom: -10 px;left: 50 % ;margin - left: -10 px;width: 0;height: 0;border - style: solid;border - width: 10 px 10 px 0 10 px;border - color: #FFF transparent transparent transparent
+                }#
+                perviewDownloadShare img {
+                    max - width: 100 %
+                }#
+                btnDownloadShare {
+                    padding: 0 20 px 20 px 20 px;text - align: right;position: relative
+                }#
+                btnDownloadShare.btn {
+                    color: #FFF;text - decoration: none;padding: 10 px 14 px;font - size: 18 px;border - width: 2 px;border - style: outset; - webkit - border - radius: 10 px; - moz - border - radius: 10 px; - ms - border - radius: 10 px; - o - border - radius: 10 px;border - radius: 10 px
+                }#
+                btnDownloadShare.btn: active {
+                    border - style: inset
+                }#
+                btnUpload {
+                    background - color: #009834;border-color:# 009834;
+                    position: absolute;
+                    right: 220 px;
+                    top: 36 px;
+                    color: #FFF;
+                    text - decoration: none;
+                    padding: 7 px 14 px;
+                    font - size: 14 px;
+                    border - width: 2 px;
+                    border - style: outset;
+                    cursor: pointer; - webkit - border - radius: 10 px; - moz - border - radius: 10 px; - ms - border - radius: 10 px; - o - border - radius: 10 px;
+                    border - radius: 10 px
+                }#
+                btnUpload: hover {
+                    background - color: #00b23d;border-color:# 00 b23d
+                }#
+                btnUpload: active {
+                    border - style: inset
+                }#
+                btnDownload {
+                    background - color: #e40012;
+                    border - color: #e40012
+                }#
+                btnDownload: hover {
+                    background - color: #fe0014;
+                    border - color: #fe0014
+                }#
+                btnDownload: hover~#perviewDownloadShare {
+                    left: 222 px;display: block
+                }#
+                btnShare {
+                    background - color: #0068b6;border-color:# 0068 b6
+                }#
+                btnShare: hover {
+                    background - color: #0077d0;border-color:# 0077 d0
+                }#
+                btnShare: hover~#perviewDownloadShare {
+                    left: 352 px;display: block
+                }#
+                inputUpload {
+                    display: none
+                }#
+                filterBox,
+                #frameBox {
+                    margin: 20 px;position: relative;height: 60 px
+                }#
+                filterBox.arrow - left,
+                #filterBox.arrow - right,
+                #frameBox.arrow - left,
+                #frameBox.arrow - right {
+                    width: 10 px;height: 20 px;margin: 20 px 0;display: block;background - repeat: no - repeat
+                }#
+                filterBox.arrow - left: hover,
+                #filterBox.arrow - right: hover,
+                #frameBox.arrow - left: hover,
+                #frameBox.arrow - right: hover {
+                    filter: alpha(opacity = 80);opacity: .8
+                }#
+                filterBox.arrow - left,
+                #frameBox.arrow - left {
+                    position: absolute;left: 0;background - image: url(.. / img / arrowL.png)
+                }#
+                filterBox.arrow - right,
+                #frameBox.arrow - right {
+                    position: absolute;right: 0;background - image: url(.. / img / arrowR.png)
+                }#
+                filterBox.iconBox,
+                #frameBox.iconBox {
+                    margin: 0 20 px;padding: 8 px 10 px;height: 42 px; - webkit - border - radius: 5 px; - moz - border - radius: 5 px; - ms - border - radius: 5 px; - o - border - radius: 5 px;border - radius: 5 px
+                }#
+                filterBox.item,
+                #frameBox.item {
+                    display: inline - block;width: 39 px;height: 40 px;margin - right: 1 px;border - style: solid;border - width: thin;border - color: transparent; - webkit - border - radius: 5 px; - moz - border - radius: 5 px; - ms - border - radius: 5 px; - o - border - radius: 5 px;border - radius: 5 px
+                }#
+                filterBox.item.active,
+                #frameBox.item.active {
+                    border - color: #F00
+                }#
+                filterBox.item {
+                    line - height: 40 px;
+                    text - align: center;
+                    font - size: 13 px;
+                    text - decoration: none;
+                    color: #000;font-weight:bold;background-color:# ff0
+                }#
+                filterBox.item.bk1 {
+                    background - color: #f5b882
+                }#
+                filterBox.item.bk2 {
+                    background - color: #a7ceda
+                }#
+                filterBox.item.bk3 {
+                    background - color: #f2a9b4
+                }#
+                filterBox.item.bk4 {
+                    background - color: #f4e25f
+                }#
+                frameBox.iconBox {
+                    background - color: #FFF
+                }#
+                stickerBox {
+                    margin: 20 px 30 px
+                }#
+                stickerBox.tabs {
+                    position: relative;padding: 5 px 10 px 1 px 10 px;background - color: #e3e4e3;z - index: 2; - webkit - border - radius: 5 px; - moz - border - radius: 5 px; - ms - border - radius: 5 px; - o - border - radius: 5 px;border - radius: 5 px
+                }#
+                stickerBox.tabs a {
+                    margin - right: 10 px;
+                    filter: alpha(opacity = 50);
+                    opacity: .5
+                }#
+                stickerBox.tabs a: hover,
+                #stickerBox.tabs a.active {
+                    filter: alpha(opacity = 100);opacity: 1
+                }#
+                stickerBox.iconBox {
+                    margin - top: -10 px
+                }#
+                stickerBox.item {
+                    margin: 5 px;width: 40 px;height: 50 px
+                }#
+                stickerBox.swiper - container {
+                    width: 220 px;height: 1000 px
+                }#
+                stickerBox.swiper - container.content - slide {
+                    background - color: #FFF;
+                    padding: 20 px 0 10 px 0
+                }

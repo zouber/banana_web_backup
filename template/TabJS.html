@@ -1,0 +1,35 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    var focus_tab_id = document.location.hash;
+    if(focus_tab_id == ''){
+      //$("#tab1").addClass('ordinary_focus focus');
+      // do nothing
+    }
+    else{
+      $('.ordinary_focus').removeClass('ordinary_focus');
+      $('.focus').removeClass('focus');
+      $('.tab_content').hide();
+      $(focus_tab_id).addClass('ordinary_focus focus');
+      // focus_tab_id contains #
+      $(focus_tab_id + "_content").show();
+    }
+
+    $(".tab").on('mouseover', function(){
+      $('.tab').removeClass('focus');
+      $(this).addClass('focus');
+    });
+
+    $(".tab").on('mouseout', function(){
+      $('.tab').removeClass('focus');
+      $('.ordinary_focus').addClass('focus');
+    });
+
+    $(".tab").on('click', function(){
+      $('.ordinary_focus').removeClass('ordinary_focus');
+      $(this).addClass('ordinary_focus focus');
+      //document.location.href = '/about_us#' + $(this).attr('id');
+      $('.tab_content').hide();
+      $("#" + $(this).attr('id') + "_content").show();
+    });
+  });
+</script>

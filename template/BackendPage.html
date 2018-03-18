@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>歡迎光臨三博鹿科技 - 資料管理後台</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link href="/media/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <style type="text/css">
+      input[type="text"]{
+        width: 320px;
+      }
+      textarea{
+        width: 320px;
+      }
+      .pure-button-primary a{
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+      }
+    </style>
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/media/js/jquery-ui/jquery-ui.min.js"></script>
+    <script>
+      $(function() {
+        $( "#tabs" ).tabs();
+      });
+    </script>
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px">
+    <h1 style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px">歡迎光臨三博鹿科技 - 資料管理後台</h1>
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-0">合作提案</a></li>
+        <li><a href="#tabs-1">消息/媒體報導</a></li>
+        <li><a href="#tabs-2">關於我們/故事介紹</a></li>
+        <li><a href="#tabs-3">角色</a></li>
+        <li><a href="#tabs-4">SD 遊樂園/下載</a></li>
+        <li><a href="#tabs-5">下載物目錄</a></li>
+        <li><a href="#tabs-6">好物</a></li>
+        <li><a href="#tabs-7">合作對象</a></li>
+      </ul>
+
+      <div id="tabs-0">
+        <table id="message_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>已回覆</th>
+              <th>時間</th>
+              <th>姓名</th>
+              <th>電話</th>
+              <th>e-mail</th>
+              <th>單位</th>
+              <th>單位簡介</th>
+              <th>職稱</th>
+              <th>合作內容</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for message in messages %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt">
+            {% else %}
+            <tr class="pure-table-odd" style="font-size: 12pt">
+            {% endif %}
+              <td width="80">
+                {% if message.reply %}
+                  <input style="width: 25px" type="checkbox" class="message_reply" value="{{message.sn}}" checked>已回覆
+                {% else %}
+                  <input style="width: 25px" type="checkbox" class="message_reply" value="{{message.sn}}">已回覆<br>
+                {% endif %}
+              </td>
+              <td>{{message.build_time|datetimeformat_withhour}}</td>
+              <td>{{message.name}}</td>
+              <td>{{message.tel}}</td>
+              <td>{{message.email}}</td>
+              <td>{{message.company}}</td>
+              <td>{{message.company_desc}}</td>
+              <td>{{message.title}}</td>
+              <td>{% autoescape false %}{{message.proposal}}{% endautoescape %}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div id="tabs-1">
+        <form id="news_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=news" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="category">選擇種類：</label>
+                <select name="category">
+                  <option value="news">消息</option>
+                  <option value="report">媒體報導</option>
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="news_time">選擇日期：</label>
+                <select name="news_year">
+                  {% for year in range(2013, 2031) %}
+                      <option value="{{year}}">{{year}}</option>
+                  {% endfor %}
+                </select>
+                年
+                <select name="news_month">
+                  {% for month in range(1, 13) %}
+                      <option value="{{month}}">{{ '%02d' % month }}</option>
+                  {% endfor %}
+                </select>
+                月
+                <select name="news_day">
+                  {% for day in range(1, 32) %}
+                      <option value="{{day}}">{{ '%02d' % day }}</option>
+                  {% endfor %}
+                </select>
+                日
+            </div>
+            <div class="pure-control-group">
+                <label for="title">輸入標題：</label>
+                <input type="text" name="title"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="subtitle">輸入副標：</label>
+                <input type="text" name="subtitle" />
+            </div>
+            <div class="pure-control-group">
+                <label for="location">輸入地點：</label>
+                <input type="text" name="location" />
+            </div>
+            <div class="pure-control-group">
+                <label for="description">輸入描述：</label>
+                <textarea name="description" rows="4"></textarea>
+            </div>
+            <div class="pure-control-group">
+                <label for="media_name">輸入媒體(選填)：</label>
+                <input type="text" name="media_name" />
+            </div>
+            <div class="pure-control-group">
+                <label for="thumb">選擇上傳圖片(限圖片檔)：</label>
+                <input type="file" name="thumb">
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+        <table id="news_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>編輯<br/>刪除</th>
+              <th>種類</th>
+              <th>日期</th>
+              <th>標題</th>
+              <th>副標</th>
+              <th>地點</th>
+              <th>描述</th>
+              <th>媒體</th>
+              <th>圖片</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in news %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt">
+            {% else %}
+            <tr class="pure-table-odd" style="font-size: 12pt">
+            {% endif %}
+              <td>
+                <div id="{{item.key.id()}}_edit" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="edit_item pure-button-primary pure-button">
+                  <a href="/edit_item?class_name={{item._get_kind()}}&key_id={{item.key.id()}}">編輯</a>
+                </div>
+                <div id="{{item.key.id()}}_remove" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="remove_item pure-button-primary pure-button" style="background-color: red; margin-top: 10px">刪除</div>
+              </td>
+              <td>{{item.category|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>{{item.news_time}}</td>
+              <td>{{item.title}}</td>
+              <td>{{item.subtitle}}</td>
+              <td>{{item.location}}</td>
+              <td>{% autoescape false %}{{item.description}}{% endautoescape %}</td>
+              <td>{{item.media_name}}</td>
+              <td>
+                <img src="{{item.thumb_url|convert_image_url(200)}}" />
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div id="tabs-2">
+        <form id="story_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=story" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="category">選擇種類：</label>
+                <select name="category">
+                  <option value="story">故事介紹</option>
+                  <option value="about_us">關於我們</option>
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="title">輸入標題：</label>
+                <input type="text" name="title"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="content">輸入描述：</label>
+                <textarea name="content" rows="4"></textarea>
+            </div>
+            <div class="pure-control-group">
+                <label for="image">選擇上傳圖片(限圖片檔)：</label>
+                <input type="file" name="image">
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+        <table id="posts_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>編輯<br/>刪除</th>
+              <th>種類</th>
+              <th>標題</th>
+              <th>內容</th>
+              <th>圖片</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in posts %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt">
+            {% else %}
+            <tr class="pure-table-odd" style="font-size: 12pt">
+            {% endif %}
+              <td>
+                <div id="{{item.key.id()}}_edit" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="edit_item pure-button-primary pure-button">
+                  <a href="/edit_item?class_name={{item._get_kind()}}&key_id={{item.key.id()}}">編輯</a>
+                </div>
+                <div id="{{item.key.id()}}_remove" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="remove_item pure-button-primary pure-button" style="background-color: red; margin-top: 10px">刪除</div>
+              </td>
+              <td>{{item.category|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>{{item.title}}</td>
+              <td>{% autoescape false %}{{item.content}}{% endautoescape %}</td>
+              <td>
+                <img src="{{item.image|convert_image_url(200)}}" />
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      <div id="tabs-3">
+        <form id="character_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=character" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="name">輸入名字：</label>
+                <input type="text" name="name"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="birthday">選擇生日：</label>
+                <select name="birthday_year">
+                  {% for year in range(1950, 2031) %}
+                      <option value="{{year}}">{{year}}</option>
+                  {% endfor %}
+                </select>
+                年
+                <select name="birthday_month">
+                  {% for month in range(1, 13) %}
+                      <option value="{{month}}">{{ '%02d' % month }}</option>
+                  {% endfor %}
+                </select>
+                月
+                <select name="birthday_day">
+                  {% for day in range(1, 32) %}
+                      <option value="{{day}}">{{ '%02d' % day }}</option>
+                  {% endfor %}
+                </select>
+                日
+            </div>
+            <div class="pure-control-group">
+                <label for="pet_phrase">輸入口頭禪：</label>
+                <input type="text" name="pet_phrase"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="personality">輸入個性：</label>
+                <input type="text" name="personality" />
+            </div>
+            <div class="pure-control-group">
+                <label for="super_power">輸入超能力：</label>
+                <input type="text" name="super_power" />
+            </div>
+            <div class="pure-control-group">
+                <label for="occupation">輸入職業：</label>
+                <input type="text" name="occupation" />
+            </div>
+            <div class="pure-control-group">
+                <label for="like">輸入最喜歡：</label>
+                <input type="text" name="like" />
+            </div>
+            <div class="pure-control-group">
+                <label for="hate">輸入最討厭：</label>
+                <input type="text" name="hate" />
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div id="tabs-4">
+        <form id="egoodie_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=egoodie" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="item_type">選擇檔案類別：</label>
+                <select name="item_type" class="item_type_menu">
+                  <option value="image">圖片</option>
+                  <option value="video">影片</option>
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="category">選擇歸類：</label>
+                <select name="category" class="category_menu">
+                  <option value="sd_media">SD遊樂園</option>
+                  <option value="gif">GIF動圖</option>
+                  <option value="mobile_desktop">手機桌布</option>
+                  <option value="pc_desktop">電腦桌布</option>
+                  <option value="fb_banner">FB封面</option>
+                </select>
+            </div>
+            <div class="pure-control-group catalog_name_menu pc_catalog_name_menu" style="display: none">
+                <label for="pc_catalog_name">選擇歸屬群組<br/>（電腦）：</label>
+                <select name="pc_catalog_name">
+                  {% for item in pc_desktop_catalog %}
+                    <option value="{{item.name}}">{{item.name}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="pure-control-group catalog_name_menu mobile_catalog_name_menu" style="display: none">
+                <label for="mobile_catalog_name">選擇歸屬群組<br/>（手機）：</label>
+                <select name="mobile_catalog_name">
+                  {% for item in mobile_desktop_catalog %}
+                    <option value="{{item.name}}">{{item.name}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="pure-control-group catalog_name_menu gif_catalog_name" style="display: none">
+                <label for="gif_catalog_name">輸入GIF目錄名稱：</label>
+                <input type="text" name="gif_catalog_name"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="name">輸入名稱：</label>
+                <input type="text" name="name"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="width">輸入寬度：</label>
+                <input type="text" name="width" />
+            </div>
+            <div class="pure-control-group">
+                <label for="height">輸入高度：</label>
+                <input type="text" name="height" />
+            </div>
+            <div class="pure-control-group video_url_panel" style="display: none;">
+                <label for="video_url">輸入影片網址：</label>
+                <input type="text" name="video_url" />
+            </div>
+            <div class="pure-control-group image_file_panel">
+                <label for="image_file">選擇上傳圖檔<br/>(限圖片檔)：</label>
+                <input type="file" name="image_file">
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+        <table id="egoodies_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>編輯<br/>刪除</th>
+              <th>型態</th>
+              <th>類別</th>
+              <th>歸屬群組</th>
+              <th>名稱</th>
+              <th>寬 x 高</th>
+              <th>圖片</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in egoodies %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt">
+            {% else %}
+            <tr class="pure-table-odd" style="font-size: 12pt">
+            {% endif %}
+              <td>
+                <div id="{{item.key.id()}}_edit" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="edit_item pure-button-primary pure-button">
+                  <a href="/edit_item?class_name={{item._get_kind()}}&key_id={{item.key.id()}}">編輯</a>
+                </div>
+                <div id="{{item.key.id()}}_remove" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="remove_item pure-button-primary pure-button" style="background-color: red; margin-top: 10px">刪除</div>
+              </td>
+              <td>{{item.file_type|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>{{item.category|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>{{item.catalog_name}}</td>
+              <td>{{item.name}}</td>
+              <td>
+                {{item.width}} x {{item.height}}
+              </td>
+              <td>
+                {% if item.file_type == 'image' %}
+                  <img src="{{item.file_url|convert_image_url(200)}}" />
+                {% else %}
+                  {% autoescape false %}
+                    {{item.file_url|generate_video_frame_html(200, 120)}}
+                  {% endautoescape %}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <script type="text/javascript">
+        $('.item_type_menu').change(function(){
+          var select_type = $(this).val();
+          if(select_type == 'image'){
+            $('.video_url_panel').hide();
+            $('.image_file_panel').show();
+          }
+          else{
+            $('.video_url_panel').show();
+          }
+        });
+
+        $('.category_menu').change(function(){
+          var select_category = $(this).val();
+          $('.catalog_name_menu').hide();
+          if(select_category == 'mobile_desktop'){
+            $('.mobile_catalog_name_menu').show();
+          }
+          else if(select_category == 'pc_desktop'){
+            $('.pc_catalog_name_menu').show();
+          }
+          else if(select_category == 'gif'){
+            $('.gif_catalog_name').show();
+          }
+        });
+      </script>
+
+      <div id="tabs-5">
+        <form id="egoodie_catalog_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=download_item_catalog" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="category">選擇目錄類別：</label>
+                <select name="category" class="item_type_menu">
+                  <option value="mobile_desktop">手機桌布</option>
+                  <option value="pc_desktop">電腦桌布</option>
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="name">輸入名稱：</label>
+                <input type="text" name="name"/>
+            </div>
+            <div class="pure-control-group image_file_panel">
+                <label for="cover_image">選擇上傳圖檔(限圖片檔)：</label>
+                <input type="file" name="cover_image">
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+        <table id="download_catalog_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>編輯<br/>刪除</th>
+              <th>目錄種類</th>
+              <th>名稱</th>
+              <th>檔案數/解析度</th>
+              <th>圖片</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in download_item_catalogs %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt">
+            {% else %}
+            <tr class="pure-table-odd" style="font-size: 12pt">
+            {% endif %}
+              <td>
+                <div id="{{item.key.id()}}_edit" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="edit_item pure-button-primary pure-button">
+                  <a href="/edit_item?class_name={{item._get_kind()}}&key_id={{item.key.id()}}">編輯</a>
+                </div>
+                <div id="{{item.key.id()}}_remove" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="remove_item pure-button-primary pure-button" style="background-color: red; margin-top: 10px">刪除</div>
+              </td>
+              <td>{{item.category|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>{{item.name}}</td>
+              <td>
+                {{item.download_items|length}}<br/><br/>
+                {% for goodie in item.download_items %}
+                  <div>
+                  {{goodie.width}} x {{goodie.height}}
+                  </div>
+                {% endfor %}
+              </td>
+              <td>
+                <img src="{{item.cover_image|convert_image_url(200)}}" />
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div id="tabs-6">
+        <form id="product_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=product" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="item_type">選擇類別：</label>
+                <select name="item_type">
+                  <option value="virtual">虛擬產品</option>
+                  <option value="physical">實體商品</option>
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="name">輸入名稱：</label>
+                <input type="text" name="name"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="category">選擇分類：</label>
+                <select name="category">
+                  <option value="life">生活</option>
+                  <option value="cloth">服飾</option>
+                  <option value="accessory">配件</option>
+                  <option value="stationery">文具</option>
+                  <option value="kitchen">餐廚</option>
+                  <option value="decoration">家飾</option>
+                  <option value="3c">3C</option>
+                  <option value="toy">玩具</option>
+                  <option value="food">食品</option>
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="description">輸入描述：</label>
+                <textarea name="description" rows="4"></textarea>
+            </div>
+            <div class="pure-control-group">
+                <label for="where_to_buy">輸入購買資訊（請填購買網址）：</label>
+                <input type="text" name="where_to_buy" />
+            </div>
+            <div class="pure-control-group">
+                <label for="image_files">選擇上傳圖檔(限圖片檔, 可選多張, 總檔案大小勿超過20MB)：</label>
+                <input type="file" name="image_files" multiple>
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+        <table id="product_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>編輯<br/>刪除</th>
+              <th>
+                順序
+                <div class="save_product_order pure-button-primary pure-button" style="background-color: #FFA500; margin-top: 10px; font-size: 9pt; padding: 5px">儲存順序</div>
+              </th>
+              <th>類別</th>
+              <th>名稱</th>
+              <th>分類</th>
+              <th>描述</th>
+              <th>購買資訊</th>
+              <th>圖片</th>
+            </tr>
+          </thead>
+          <script type="text/javascript">
+            $(document).on('click', '.adjust_product_order.up', function(){
+              var current_product_item = $(this).parents('.product_item');
+              var clone_html = '<tr style="font-size: 12pt" class="product_item">' + current_product_item.html() + '</tr>';
+              var prev_sibling = current_product_item.prev('.product_item');
+              if(prev_sibling.length > 0){
+                current_product_item.remove();
+                prev_sibling.before(clone_html);
+                prev_sibling.prev().find('.show_priority').focus();
+                reset_show_priority();
+                reset_row_style();
+              }
+            });
+            $(document).on('click', '.adjust_product_order.down', function(){
+              var current_product_item = $(this).parents('.product_item');
+              var clone_html = '<tr style="font-size: 12pt" class="product_item">' + current_product_item.html() + '</tr>';
+              var next_sibling = current_product_item.next('.product_item');
+              if(next_sibling.length > 0){
+                current_product_item.remove();
+                next_sibling.after(clone_html);
+                next_sibling.next().find('.show_priority').focus();
+                reset_show_priority();
+                reset_row_style();
+              }
+            });
+
+            $(document).on('change', '.show_priority', function(){
+              var item_obj = $(this).parents('.product_item');
+
+              var target_index = 1;
+              if(parseInt($(this).val()) != NaN){
+                target_index = parseInt($(this).val());
+              }
+              
+              if(target_index < 1){
+                target_index = 1;
+              }
+              
+              move_product_row_to_certain_position(item_obj, target_index);
+              reset_show_priority();
+              reset_row_style();
+            });
+
+            $(document).on('click', '.save_product_order', function(){
+              var key_str = '';
+              $(".show_priority").each(function(){
+                var item_key = $(this).attr('key');
+                key_str += item_key + ',';
+              });
+              key_str = key_str.substr(0, key_str.length-1);
+              $.ajax({
+                  type: "POST",
+                  url: "/api/change_product_order",
+                  data: {keys: key_str}
+              }).done(function(response){
+                  if(response.status){
+                    console.log(response.data);
+                    alert('順序更新完成!');
+                  }
+              });
+            });
+
+            // index start from 1
+            function move_product_row_to_certain_position(item_obj, index){
+              if(item_obj.hasClass('product_item')){
+                var prev_index = index - 1;
+                var item_html = item_obj.html();
+                item_obj.remove();
+                $('.product_item').eq(prev_index).before('<tr style="font-size: 12pt" class="product_item">' + item_html + '</tr>');
+                $('.product_item').eq(index-1).find('.show_priority').focus();
+              }
+            }
+            function reset_row_style(){
+              $('.product_item.pure-table-odd').removeClass('pure-table-odd');
+              $('.product_item:odd').addClass('pure-table-odd');
+            }
+            function reset_show_priority(){
+              var show_priority = 1;
+              $('.product_item').each(function(){
+                $(this).find('.show_priority').val(show_priority);
+                show_priority++;
+              });
+            }
+          </script>
+          <tbody>
+          {% for item in products %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt" class="product_item">
+            {% else %}
+            <tr class="pure-table-odd product_item" style="font-size: 12pt">
+            {% endif %}
+              <td>
+                <div id="{{item.key.id()}}_edit" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="edit_item pure-button-primary pure-button">
+                  <a href="/edit_item?class_name={{item._get_kind()}}&key_id={{item.key.id()}}">編輯</a>
+                </div>
+                <div id="{{item.key.id()}}_remove" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="remove_item pure-button-primary pure-button" style="background-color: red; margin-top: 10px">刪除</div>
+              </td>
+              <td>
+                <input key="{{item.key.id()}}" type="text" class="show_priority" name="show_priority" style="width: 40px" value="{{loop.index}}" />
+                <div key="{{item.key.id()}}" title="提前顯示" class="adjust_product_order up pure-button-primary pure-button" style="background-color: gray; margin-top: 10px; font-size: 9pt; padding: 6px; margin-right: 10px">↑</div>
+                <div key="{{item.key.id()}}" title="移後顯示" class="adjust_product_order down pure-button-primary pure-button" style="background-color: gray; margin-top: 10px; font-size: 9pt; padding: 6px">↓</div>
+              </td>
+              <td>{{item.type|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.category|convert_item_category_to_chinese(item._get_kind())}}</td>
+              <td>
+                {% autoescape false %}{{item.description}}{% endautoescape %}
+              </td>
+              <td>
+                {% if item.where_to_buy %}
+                  {{item.where_to_buy}}
+                {% else %}
+                  暫無描述
+                {% endif %}
+              </td>
+              <td>
+                {% for url in item.image_urls %}
+                <img src="{{url|convert_image_url(100)}}" />
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div id="tabs-7">
+        <form id="cooperation_management" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=cooperation" enctype="multipart/form-data">
+          <fieldset>
+            <div class="pure-control-group">
+                <label for="name">輸入合作名稱：</label>
+                <input type="text" name="name"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="subtitle">輸入副標題：</label>
+                <input type="text" name="subtitle"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="event_year">選擇日期：</label>
+                <select name="event_year">
+                  {% for year in range(2010, 2031) %}
+                      <option value="{{year}}">{{year}}</option>
+                  {% endfor %}
+                </select>
+                年
+                <select name="event_month">
+                  {% for month in range(1, 13) %}
+                      <option value="{{month}}">{{ '%02d' % month }}</option>
+                  {% endfor %}
+                </select>
+                月
+                <select name="event_day">
+                  {% for day in range(1, 32) %}
+                      <option value="{{day}}">{{ '%02d' % day }}</option>
+                  {% endfor %}
+                </select>
+                日
+                <select name="event_hour">
+                  {% for hour in range(0, 24) %}
+                      <option value="{{hour}}">{{ '%02d' % hour }}</option>
+                  {% endfor %}
+                </select>
+                ：
+                <select name="event_minute">
+                  {% for minute in range(0, 60) %}
+                      <option value="{{minute}}">{{ '%02d' % minute }}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="pure-control-group">
+                <label for="partner">輸入合作廠商：</label>
+                <input type="text" name="partner"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="location">輸入舉辦地點（選填）：</label>
+                <input type="text" name="location"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="description">輸入描述：</label>
+                <textarea name="description" rows="4"></textarea>
+            </div>
+            <div class="pure-control-group">
+                <label for="image_files">選擇上傳圖檔(限圖片檔, 為了網頁最佳呈現效果請選四張, 總檔案大小勿超過20MB)：</label>
+                <input type="file" name="image_files" multiple>
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">送出</button>
+            </div>
+          </fieldset>
+        </form>
+        <table id="cooperation_table" class="pure-table">
+          <thead>
+            <tr>
+              <th>編輯<br/>刪除</th>
+              <th>名稱</th>
+              <th>副標</th>
+              <th>日期</th>
+              <th>廠商</th>
+              <th>地點</th>
+              <th>描述</th>
+              <th>圖片</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in cooperations %}
+            {% if loop.index%2 == 0 %}
+            <tr style="font-size: 12pt">
+            {% else %}
+            <tr class="pure-table-odd" style="font-size: 12pt">
+            {% endif %}
+              <td>
+                <div id="{{item.key.id()}}_edit" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="edit_item pure-button-primary pure-button">
+                  <a href="/edit_item?class_name={{item._get_kind()}}&key_id={{item.key.id()}}">編輯</a>
+                </div>
+                <div id="{{item.key.id()}}_remove" key="{{item.key.id()}}" name="{{item._get_kind()}}" class="remove_item pure-button-primary pure-button" style="background-color: red; margin-top: 10px">刪除</div>
+              </td>
+              <td>{{item.name}}</td>
+              <td>{{item.subtitle}}</td>
+              <td>{{item.event_time|datetimeformat_withhour}}</td>
+              <td>{{item.partner}}</td>
+              <td>{{item.location}}</td>
+              <td>
+                {% autoescape false %}{{item.description}}{% endautoescape %}
+              </td>
+              <td>
+                {% for url in item.image_urls %}
+                <img src="{{url|convert_image_url(100)}}" />
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <script type="text/javascript">
+        $(document).on('click', '.remove_item', function(){
+          var class_name = $(this).attr('name');
+          var key_id = $(this).attr('key');
+
+          var r = confirm("確定要刪除嗎（將無法再復原）？");
+          if (r == true) {
+              $.ajax({
+                  type: "POST",
+                  url: "/api/remove_item",
+                  data: {class_name: class_name, key_id: key_id}
+              }).done(function(response){
+                  if(response.status){
+                    var key_id = response.data.key_id;
+                    var class_name = response.data.class_name;
+                    $('#'+key_id+'_remove').parents('tr').remove();
+                  }
+              });
+          } else {
+              console.log("You pressed Cancel!");
+          }
+        });
+
+        $(document).on('click', '.message_reply', function() {
+          var message_sn = $(this).val();
+          var reply = false;
+          // checked --> reply = true
+          if($(this).prop('checked') == true){
+            reply = true;
+          }
+          $.ajax({
+              type: "POST",
+              url: "/api/mark_message_as_reply",
+              data: {message_sn: message_sn, reply: reply}
+          }).done(function(response){
+              if(response.status){
+                //console.log(response.data);
+              }
+          });
+        });
+      </script>
+    </div>
+  </body>
+</html>
+{% endautoescape %}

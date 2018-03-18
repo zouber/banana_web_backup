@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body style="width: 100%; text-align: center">
+        <div style="position: relative; margin-left: auto; margin-right: auto; width: 60%">
+            <img width="100%" src="/media/banana_camera/img/please_view_in_mobile.png" />
+            <div onclick="javascript: goToBananaMensRoom();" style="position: absolute; bottom: 18%; right: 14%; width: 50%; cursor: pointer">
+                <img width="50%" src="/media/banana_camera/img/link_to_banana_mans_room.png">
+            </div>
+        </div>
+        <script type="text/javascript">
+            function goToBananaMensRoom(){
+                // get operating system
+                var OSName = "unknown";
+                if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) OSName="Windows 8";
+                if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) OSName="Windows 7";
+                if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) OSName="Windows Vista";
+                if (window.navigator.userAgent.indexOf("Windows NT 5.1") != -1) OSName="Windows XP";
+                if (window.navigator.userAgent.indexOf("Windows NT 5.0") != -1) OSName="Windows 2000";
+                if (window.navigator.userAgent.indexOf("Mac")!=-1) OSName="Mac/iOS";
+                if (window.navigator.userAgent.indexOf("X11")!=-1) OSName="UNIX";
+                if (window.navigator.userAgent.indexOf("Linux")!=-1) OSName="Linux";
+
+                var redirect_url = {
+                    //'iOS': 'https://itunes.apple.com/tw/app/line-play-da-zao-wan-mei-xiao-wu/id575147772?l=zh&mt=8',
+                    //'Android': 'https://play.google.com/store/apps/details?id=jp.naver.lineplay.android&hl=zh_TW',
+                    //'unknown': 'https://play.google.com/store/apps/details?id=jp.naver.lineplay.android&hl=zh_TW'
+                    'iOS': 'http://lin.ee/fGqVEPn/lply/ro',
+                    'Android': 'http://lin.ee/fGqVEPn/lply/ro',
+                    'unknown': 'http://lin.ee/fGqVEPn/lply/ro'
+                }
+                if(OSName == 'Mac/iOS'){
+                    document.location.href = redirect_url['iOS'];
+                }
+                else{
+                    document.location.href = redirect_url['Android'];
+                }
+            }
+        </script>
+    </body>
+</html> 

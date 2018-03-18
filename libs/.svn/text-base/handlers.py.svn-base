@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+import os
+import urllib
+import webapp2
+import jinja2
+import logging
+from libs.config import *
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    #loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    loader=jinja2.FileSystemLoader('template'),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+
+class DirectHandler(webapp2.RequestHandler):
+    def get_host(self):
+        from urlparse import urlparse
+        return urlparse(self.request.url).netloc
+
+    def checkSuperAdmin(self):
+        host = self.get_host()
+        if host == 'www.fanshop.tw' or host == 'showtime-taipei.appspot.com/':
+            # for online machine, the administrator identity assignment will be more strict
+            return super_administrator_for_online_machine
+        else:
+            return list(set(super_administrator_for_testing_machine)|set(super_administrator_for_online_machine))
+
+    def HtmlResponse(self, template_name, template_values):
+        self.response.headers['Content-Type'] = 'text/html; charset=UTF-8'
+        logging.info(os.path.dirname(__file__))
+        #template_path = os.path.join(os.path.dirname(__file__), 'template', template_name)
+        template_path = template_name
+        template = JINJA_ENVIRONMENT.get_template(template_path)
+        template_values['host'] = self.request.host
+        self.response.write(template.render(template_values))
+
+    def JsonResponse(self, status, value):
+        import json
+
+        callback = self.request.get("callback")
+
+        value['status'] = status
+        value['callback'] = callback
+        # http://webapp-improved.appspot.com/guide/request.html#common-request-attributes
+        value['host'] = self.request.host
+        logging.info('host url: %s' % self.request.host_url)
+
+        self.response.headers["Content-Type"] = "application/x-javascript"
+        
+        if callback:
+            self.response.write("%s(%s)" % (callback, json.dumps(value, indent=4, sort_keys=True, separators=(',', ': '))))
+        else:
+            self.response.headers["Content-Type"] = "application/json"
+            self.response.out.write(json.dumps(value, indent=4, sort_keys=True, separators=(',', ': ')))
+            # don't raise "Internal Server Error(500)" when encounter status == False
+            #if not status:
+            #    self.response.set_status(500)

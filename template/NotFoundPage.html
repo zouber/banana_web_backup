@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>歡迎光臨三博鹿科技 - {{page_name}}</title>
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/media/js/common.js"></script>
+  </head>
+  <body style="font-family: Arial; margin: 0px">
+    <div id="illus" style="margin-left: auto; margin-right: auto; width: 730px; height: 486px">
+        <div><img src="/media/img/404_not_found_pic{{random_pic_num}}.jpg" style="vertical-align: middle" width="730" /></div>
+
+        <div id="go_to_homepage" style="width: 40px; height: 48px; position: relative; top: -52px; left: 18px; cursor: pointer">
+            <img src="/media/img/404_not_found_door_close1.jpg" width="40">
+        </div>
+    </div>
+  <script type="text/javascript">
+    function auto_adjust(){
+        var window_height = $(window).height();
+        var illus_height = $("#illus").height();
+        if(illus_height < window_height){
+            $("#illus").css('margin-top', (window_height-illus_height)/ 2);
+        }
+    }
+
+    $("#go_to_homepage").on('mouseover', function(){
+        $(this).find('img').attr('src', '/media/img/404_not_found_door_open1.jpg');
+    });
+
+    $("#go_to_homepage").on('mouseout', function(){
+        $(this).find('img').attr('src', '/media/img/404_not_found_door_close1.jpg');
+    });
+
+    $("#go_to_homepage").on('click', function(){
+        setTimeout(function(){
+            $("#go_to_homepage").find('img').attr('src', '/media/img/404_not_found_door_open1.jpg');
+            setTimeout(function(){
+                document.location.href = '/';
+            }, 1000);
+        }, 500);
+    });
+
+    $(document).ready(function(){
+        auto_adjust();
+    });
+    $(window).resize(function(){
+        auto_adjust();
+    })
+  </script>
+  </body>
+</html>
+{% endautoescape %}

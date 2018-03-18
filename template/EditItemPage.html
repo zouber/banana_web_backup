@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>歡迎光臨三博鹿科技 - 資料編輯</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link href="/media/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <style type="text/css">
+      input[type="text"]{
+        width: 320px;
+      }
+      textarea{
+        width: 320px;
+      }
+      body{
+        font-family: Microsoft JhengHei;
+      }
+      .msg{
+        font-size: 28pt;
+        font-weight: 600;
+        margin: 10px;
+        float: left;
+      }
+      a{
+        font-size: 12pt;
+      }
+    </style>
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/media/js/jquery-ui/jquery-ui.min.js"></script>
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px">
+  {% if item %}
+    <h1 style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px">歡迎光臨三博鹿科技 - 資料編輯</h1>
+    {% if item._get_kind() == 'News' %}
+    <form id="news_update" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=news" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="key_id" value="{{item.key.id()}}">
+        <div class="pure-control-group">
+            <label for="category">選擇種類：</label>
+            <select name="category">
+              <option value="news">消息</option>
+              <option value="report">媒體報導</option>
+            </select>
+        </div>
+        <div class="pure-control-group">
+            <label for="news_time">選擇日期：</label>
+            <select name="news_year">
+              {% for year in range(2013, 2031) %}
+                  <option value="{{year}}">{{year}}</option>
+              {% endfor %}
+            </select>
+            年
+            <select name="news_month">
+              {% for month in range(1, 13) %}
+                  <option value="{{month}}">{{ '%02d' % month }}</option>
+              {% endfor %}
+            </select>
+            月
+            <select name="news_day">
+              {% for day in range(1, 32) %}
+                  <option value="{{day}}">{{ '%02d' % day }}</option>
+              {% endfor %}
+            </select>
+            日
+        </div>
+        <div class="pure-control-group">
+            <label for="title">輸入標題：</label>
+            <input type="text" name="title" value="{{item.title}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="subtitle">輸入副標：</label>
+            <input type="text" name="subtitle" value="{{item.subtitle}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="location">輸入地點：</label>
+            <input type="text" name="location" value="{{item.location}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="description">輸入描述：</label>
+            <textarea name="description" rows="4">{{item.description|br_to_slash_n}}</textarea>
+        </div>
+        <div class="pure-control-group">
+            <label for="media_name">輸入媒體(選填)：</label>
+            <input type="text" name="media_name" value="{{item.media_name}}" />
+        </div>
+        <div class="pure-control-group">
+            <input type="hidden" name="thumb_url" value="{{item.thumb_url}}">
+            <img src="{{item.thumb_url}}" /><br/>
+            <label for="thumb">選擇上傳圖片(限圖片檔)：</label>
+            <input type="file" name="thumb">
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">送出</button>
+            <div class="cancel_submit pure-button-primary pure-button" style="background-color: red; margin-top: 10px; margin-left: 15px">取消</div>
+        </div>
+        <script type="text/javascript">
+          $('#news_update').find('select[name="category"]').val('{{item.category}}');
+          $('#news_update').find('select[name="news_year"]').val('{{item.news_time.year}}');
+          $('#news_update').find('select[name="news_month"]').val('{{item.news_time.month}}');
+          $('#news_update').find('select[name="news_day"]').val('{{item.news_time.day}}');
+        </script>
+      </fieldset>
+    </form>
+    {% endif %}
+
+    {% if item._get_kind() == 'Post' %}
+    <form id="story_update" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=story" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="key_id" value="{{item.key.id()}}">
+        <div class="pure-control-group">
+            <label for="category">選擇種類：</label>
+            <select name="category">
+              <option value="story">故事介紹</option>
+              <option value="about_us">關於我們</option>
+            </select>
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="title">輸入標題：</label>
+            <input type="text" name="title" value="{{item.title}}" />
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="content">輸入描述：</label>
+            <textarea name="content" rows="4">{{item.content|br_to_slash_n}}</textarea>
+        </div>
+        
+        <div class="pure-control-group">
+            <input type="hidden" name="thumb_url" value="{{item.image}}">
+            <img src="{{item.image}}" /><br/>
+            <label for="image">選擇上傳圖片(限圖片檔)：</label>
+            <input type="file" name="image">
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">送出</button>
+            <div class="cancel_submit pure-button-primary pure-button" style="background-color: red; margin-top: 10px; margin-left: 15px">取消</div>
+        </div>
+        <script type="text/javascript">
+          $('#story_update').find('select[name="category"]').val('{{item.category}}');
+        </script>
+      </fieldset>
+    </form>
+    {% endif %}
+
+    {% if item._get_kind() == 'EGoodie' %}
+    <form id="egoodie_update" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=egoodie" enctype="multipart/form-data">
+      <fieldset>
+      <input type="hidden" name="key_id" value="{{item.key.id()}}">
+        <div class="pure-control-group">
+            <label for="item_type">選擇檔案類別：</label>
+            <select name="item_type" class="item_type_menu">
+              <option value="image">圖片</option>
+              <option value="video">影片</option>
+            </select>
+        </div>
+        <div class="pure-control-group">
+            <label for="category">選擇歸類：</label>
+            <select name="category" class="category_menu">
+              <option value="sd_media">SD遊樂園</option>
+              <option value="gif">GIF動圖</option>
+              <option value="mobile_desktop">手機桌布</option>
+              <option value="pc_desktop">電腦桌布</option>
+              <option value="fb_banner">FB封面</option>
+            </select>
+        </div>
+        <div class="pure-control-group catalog_name_menu pc_catalog_name_menu" style="display: none">
+            <label for="pc_catalog_name">選擇歸屬群組<br/>（電腦）：</label>
+            <select name="pc_catalog_name">
+              {% for item in pc_desktop_catalog %}
+                <option value="{{item.name}}">{{item.name}}</option>
+              {% endfor %}
+            </select>
+        </div>
+        <div class="pure-control-group catalog_name_menu mobile_catalog_name_menu" style="display: none">
+            <label for="mobile_catalog_name">選擇歸屬群組<br/>（手機）：</label>
+            <select name="mobile_catalog_name">
+              {% for item in mobile_desktop_catalog %}
+                <option value="{{item.name}}">{{item.name}}</option>
+              {% endfor %}
+            </select>
+        </div>
+        <div class="pure-control-group catalog_name_menu gif_catalog_name" style="display: none">
+            <label for="gif_catalog_name">輸入GIF目錄名稱：</label>
+            <input type="text" name="gif_catalog_name" value="{{item.catalog_name}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="name">輸入名稱：</label>
+            <input type="text" name="name" value="{{item.name}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="width">輸入寬度：</label>
+            <input type="text" name="width" value="{{item.width}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="height">輸入高度：</label>
+            <input type="text" name="height" value="{{item.height}}" />
+        </div>
+        <div class="pure-control-group video_url_panel" style="display: none;">
+            <label for="video_url">輸入影片網址：</label>
+            {% if item.file_type == 'video' %}
+            <input type="text" name="video_url" value="{{item.file_url}}" />
+            {% else %}
+            <input type="text" name="video_url" value="" />
+            {% endif %}
+        </div>
+        <div class="pure-control-group image_file_panel">
+            {% if item.file_type == 'image' %}
+            <input type="hidden" name="thumb_url" value="{{item.file_url}}">
+            <img src="{{item.file_url}}" /><br/>
+            {% else %}
+            <input type="hidden" name="thumb_url" value="">
+            {% endif %}
+            <label for="image_file">選擇上傳圖檔<br/>(限圖片檔)：</label>
+            <input type="file" name="image_file">
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">送出</button>
+            <div class="cancel_submit pure-button-primary pure-button" style="background-color: red; margin-top: 10px; margin-left: 15px">取消</div>
+        </div>
+      </fieldset>
+      <script type="text/javascript">
+        $('#egoodie_update').find('select[name="item_type"]').val('{{item.file_type}}');
+        $('#egoodie_update').find('select[name="category"]').val('{{item.category}}');
+        {% if item.file_type == 'video' %}
+          $('.video_url_panel').show();
+          $('.image_file_panel').hide();
+
+        {% endif %}
+        {% if item.category == 'pc_desktop' %}
+          $('.pc_catalog_name_menu').show();
+          $('#egoodie_update').find('select[name="pc_catalog_name"]').val('{{item.catalog_name}}');
+        {% endif %}
+        {% if item.category == 'mobile_desktop' %}
+          $('.mobile_catalog_name_menu').show();
+          $('#egoodie_update').find('select[name="mobile_catalog_name"]').val('{{item.catalog_name}}');
+        {% endif %}
+        {% if item.category == 'gif' %}
+          $('.gif_catalog_name').show();
+        {% endif %}
+      </script>
+      <script type="text/javascript">
+        $('.item_type_menu').change(function(){
+          var select_type = $(this).val();
+          if(select_type == 'image'){
+            $('.video_url_panel').hide();
+            $('.image_file_panel').show();
+          }
+          else{
+            $('.video_url_panel').show();
+          }
+        });
+
+        $('.category_menu').change(function(){
+          var select_category = $(this).val();
+          $('.catalog_name_menu').hide();
+          if(select_category == 'mobile_desktop'){
+            $('.mobile_catalog_name_menu').show();
+          }
+          else if(select_category == 'pc_desktop'){
+            $('.pc_catalog_name_menu').show();
+          }
+        });
+      </script>
+    </form>
+    {% endif %}
+
+    {% if item._get_kind() == 'DownloadItemCatalog' %}
+    <form id="download_catalog_update" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=download_item_catalog" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="key_id" value="{{item.key.id()}}">
+        <div class="pure-control-group">
+            <label for="category">選擇目錄類別：</label>
+            <select name="category">
+              <option value="mobile_desktop">手機桌布</option>
+              <option value="pc_desktop">電腦桌布</option>
+            </select>
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="name">輸入名稱：</label>
+            <input type="text" name="name" value="{{item.name}}" />
+        </div>
+        
+        <div class="pure-control-group">
+            <input type="hidden" name="thumb_url" value="{{item.cover_image}}">
+            <img src="{{item.cover_image}}" /><br/>
+            <label for="cover_image">選擇上傳圖片(限圖片檔)：</label>
+            <input type="file" name="cover_image">
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">送出</button>
+            <div class="cancel_submit pure-button-primary pure-button" style="background-color: red; margin-top: 10px; margin-left: 15px">取消</div>
+        </div>
+        <script type="text/javascript">
+          $('#download_catalog_update').find('select[name="category"]').val('{{item.category}}');
+        </script>
+      </fieldset>
+    </form>
+    {% endif %}
+
+    {% if item._get_kind() == 'Product' %}
+    <form id="product_update" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=product" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="key_id" value="{{item.key.id()}}">
+        <div class="pure-control-group">
+            <label for="item_type">選擇類別：</label>
+            <select name="item_type">
+              <option value="virtual">虛擬產品</option>
+              <option value="physical">實體商品</option>
+            </select>
+        </div>
+        <div class="pure-control-group">
+            <label for="name">輸入名稱：</label>
+            <input type="text" name="name" value="{{item.name}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="category">選擇分類：</label>
+            <select name="category">
+              <option value="貼圖">貼圖</option>
+              <option value="life">生活</option>
+              <option value="cloth">服飾</option>
+              <option value="accessory">配件</option>
+              <option value="stationery">文具</option>
+              <option value="kitchen">餐廚</option>
+              <option value="decoration">家飾</option>
+              <option value="3c">3C</option>
+              <option value="toy">玩具</option>
+              <option value="food">食品</option>
+            </select>
+        </div>
+        <div class="pure-control-group">
+            <label for="description">輸入描述：</label>
+            <textarea name="description" rows="4">{{item.description|br_to_slash_n}}</textarea>
+        </div>
+        <div class="pure-control-group">
+            <label for="where_to_buy">輸入購買資訊（請填購買網址）：</label>
+            <input type="text" name="where_to_buy" value="{{item.where_to_buy}}" />
+        </div>
+        <div class="pure-control-group">
+            <input type="hidden" name="thumb_urls" value="{% for url in item.image_urls %}{{url}}{% if not loop.last %},{% endif %}{% endfor %}">
+            {% for url in item.image_urls %}
+              <img src="{{url|convert_image_url(200)}}" style="margin-left: 15px" />
+              {% if loop.last %}
+              <br/>
+              {% endif %}
+            {% endfor %}
+            <label for="image_files">選擇上傳圖檔(限圖片檔, 可選多張, 總檔案大小勿超過20MB)：</label>
+            <input type="file" name="image_files" multiple>
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">送出</button>
+            <div class="cancel_submit pure-button-primary pure-button" style="background-color: red; margin-top: 10px; margin-left: 15px">取消</div>
+        </div>
+        <script type="text/javascript">
+          $('#product_update').find('select[name="item_type"]').val('{{item.type}}');
+          $('#product_update').find('select[name="category"]').val('{{item.category}}');
+        </script>
+      </fieldset>
+    </form>
+    {% endif %}
+
+    {% if item._get_kind() == 'Cooperation' %}
+    <form id="cooperation_update" class="pure-form pure-form-aligned" method="post" action="/data_update?item_class=cooperation" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="key_id" value="{{item.key.id()}}">
+        <div class="pure-control-group">
+            <label for="name">輸入合作名稱：</label>
+            <input type="text" name="name" value="{{item.name}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="subtitle">輸入副標題：</label>
+            <input type="text" name="subtitle" value="{{item.subtitle}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="event_year">選擇日期：</label>
+            <select name="event_year">
+              {% for year in range(2010, 2031) %}
+                  <option value="{{year}}">{{year}}</option>
+              {% endfor %}
+            </select>
+            年
+            <select name="event_month">
+              {% for month in range(1, 13) %}
+                  <option value="{{month}}">{{ '%02d' % month }}</option>
+              {% endfor %}
+            </select>
+            月
+            <select name="event_day">
+              {% for day in range(1, 32) %}
+                  <option value="{{day}}">{{ '%02d' % day }}</option>
+              {% endfor %}
+            </select>
+            日
+            <select name="event_hour">
+              {% for hour in range(0, 24) %}
+                  <option value="{{hour}}">{{ '%02d' % hour }}</option>
+              {% endfor %}
+            </select>
+            ：
+            <select name="event_minute">
+              {% for minute in range(0, 60) %}
+                  <option value="{{minute}}">{{ '%02d' % minute }}</option>
+              {% endfor %}
+            </select>
+        </div>
+        <div class="pure-control-group">
+            <label for="partner">輸入合作廠商：</label>
+            <input type="text" name="partner" value="{{item.partner}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="location">輸入舉辦地點（選填）：</label>
+            <input type="text" name="location" value="{{item.location}}" />
+        </div>
+        <div class="pure-control-group">
+            <label for="description">輸入描述：</label>
+            <textarea name="description" rows="4">{{item.description|br_to_slash_n}}</textarea>
+        </div>
+        <div class="pure-control-group">
+          <input type="hidden" name="thumb_urls" value="{% for url in item.image_urls %}{{url}}{% if not loop.last %},{% endif %}{% endfor %}">
+            {% for url in item.image_urls %}
+              <img src="{{url|convert_image_url(200)}}" style="margin-left: 15px" />
+              {% if loop.last %}
+              <br/>
+              {% endif %}
+            {% endfor %}
+            <label for="image_files">選擇上傳圖檔(限圖片檔, 為了網頁最佳呈現效果請選四張, 總檔案大小勿超過20MB)：</label>
+            <input type="file" name="image_files" multiple>
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">送出</button>
+            <div class="cancel_submit pure-button-primary pure-button" style="background-color: red; margin-top: 10px; margin-left: 15px">取消</div>
+        </div>
+        <script type="text/javascript">
+          $('#cooperation_update').find('select[name="event_year"]').val('{{item.event_time.year}}');
+          $('#cooperation_update').find('select[name="event_month"]').val('{{item.event_time.month}}');
+          $('#cooperation_update').find('select[name="event_day"]').val('{{item.event_time.day}}');
+          $('#cooperation_update').find('select[name="event_hour"]').val('{{item.event_time.hour}}');
+          $('#cooperation_update').find('select[name="event_minute"]').val('{{item.event_time.minute}}');
+        </script>
+      </fieldset>
+    </form>
+    {% endif %}
+
+    <script type="text/javascript">
+      $(document).on('click', '.cancel_submit', function(){
+        {% if item._get_kind() == 'News' %}
+          document.location.href = '/backend#tabs-1'
+        {% endif %}
+        {% if item._get_kind() == 'Post' %}
+          document.location.href = '/backend#tabs-2'
+        {% endif %}
+        {% if item._get_kind() == 'EGoodie' %}
+          document.location.href = '/backend#tabs-4'
+        {% endif %}
+        {% if item._get_kind() == 'DownloadItemCatalog' %}
+          document.location.href = '/backend#tabs-5'
+        {% endif %}
+        {% if item._get_kind() == 'Product' %}
+          document.location.href = '/backend#tabs-6'
+        {% endif %}
+        {% if item._get_kind() == 'Cooperation' %}
+          document.location.href = '/backend#tabs-7'
+        {% endif %}
+      });
+    </script>
+  {% else %}
+    <div class="msg">查無物件</div>
+    <div style="float: left; margin-top: 30px">
+      <a href="/backend">返回資料管理後台</a>
+    </div>
+  {% endif %}
+  </body>
+</html>
+{% endautoescape %}

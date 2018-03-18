@@ -1,0 +1,160 @@
+{% extends "Base.html" %}
+{% block body %}
+
+<style type="text/css">
+  .news_title{
+    font-size: 18pt;
+    border-bottom: 2px solid #fff100;
+    padding-bottom: 12px;
+    padding-top: 10px;
+  }
+  .news_subtitle{
+    font-size: 16pt;
+    border-bottom: 2px solid #fff100;
+    padding-bottom: 12px;
+    padding-top: 10px;
+  }
+  .news_content{
+    font-size: 13pt;
+    line-height: 18pt;
+    padding-top: 10px;
+  }
+  table{
+    border-collapse: separate;
+    border-spacing: 5px 30px;
+    margin-left: 35px;
+  }
+  .news_thumb_frame{
+    width: 270px;
+    height: 180px;
+    overflow: hidden;
+    line-height: 180px;
+    text-align: center;
+  }
+  .news_thumb_frame img{
+    vertical-align: middle;
+  }
+  .tab_content{
+    margin-top: 43px;
+  }
+  .news_info{
+    margin-left: 10px;
+    margin-right: 40px;
+    border: none;
+    /*min-width: 360px; */
+    max-width: 550px;
+  }
+</style>
+
+{% include "segment/TabJS.html" %}
+
+<div id="body">
+  <!--
+  <div id="tabs" style="margin-left: 50px; display: none">
+    <div id="tab1" class="tab ordinary_focus focus">HOT NEWS</div>
+    <div id="tab2" class="tab">媒體報導</div>
+    <div id="tab3" class="tab" style="border-right: 2px solid #fff100">歷史活動</div>
+    <div class="clear"></div>
+  </div>
+  -->
+  <div id="innerpage_content_block" style="margin-left: 50px; margin-right: 50px; margin-top: -2px; border: 2px solid #fff100; margin-bottom: 40px; padding-bottom: 40px">
+    
+    <table id="tab1_content" width="98%" class="tab_content">
+      {% for item in news %}
+      <tr>
+        <td width="317" valign="top">
+          <div class="news_thumb_frame">
+            <img src="{{item.thumb_url}}" width="270" />
+          </div>
+        </td>
+        <td valign="middle">
+          <div class="news_info">
+            <div class="news_title">{{item.title}}</div>
+            <div class="news_subtitle">{{item.subtitle}}</div>
+            <div class="news_content">
+              {{lang|translation('Date')}} | {{item.news_time|datetimeformat}}<br/>
+              {% if item.category == 'report' %}
+                {% if item.media_name %}
+                  {{lang|translation('Media')}} | {{item.media_name}}<br/>
+                {% endif %}
+              {% else %}
+                {{lang|translation('Location')}} | {{item.location}}<br/>
+              {% endif %}
+              {{lang|translation('Content')}} | {% autoescape false %}
+                {{item.description|url_to_hyperlink}}
+              {% endautoescape %}
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        if($(window).width() < 1000){
+          $('.news_info').css('max-width', '550px');
+        }
+        else{
+          $('.news_info').css('max-width', '650px');
+        }
+      });
+    </script>
+
+    <!--
+    <table id="tab2_content" width="98%" class="tab_content" style="display: none">
+      {% for item in media_report %}
+      <tr>
+        <td width="317" valign="top">
+          <div class="news_thumb_frame">
+            <img src="{{item.thumb_url}}" width="270" />
+          </div>
+        </td>
+        <td valign="middle">
+          <div class="news_info">
+            <div class="news_title">{{item.title}}</div>
+            <div class="news_subtitle">{{item.subtitle}}</div>
+            <div class="news_content">
+              時間 | {{item.news_time|datetimeformat}}<br/>
+              地點 | {{item.location}}<br/>
+              內容 | {% autoescape false %}
+                {{item.description}}
+              {% endautoescape %}
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <table id="tab3_content" width="98%" class="tab_content" style="display: none">
+      {% for item in past_news %}
+      <tr>
+        <td width="317" valign="middle">
+          <div class="news_thumb_frame">
+            <img src="{{item.thumb_url}}" width="270" />
+          </div>
+        </td>
+        <td valign="middle">
+          <div class="news_info">
+            <div class="news_title">{{item.title}}</div>
+            <div class="news_subtitle">{{item.subtitle}}</div>
+            <div class="news_content">
+              時間 | {{item.news_time|datetimeformat}}<br/>
+              地點 | {{item.location}}<br/>
+              內容 | {% autoescape false %}
+                {{item.description}}
+              {% endautoescape %}
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    -->
+
+  </div>
+</div>
+
+{% endblock %}

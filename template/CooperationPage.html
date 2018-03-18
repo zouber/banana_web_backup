@@ -1,0 +1,302 @@
+{% extends "Base.html" %}
+{% block body %}
+
+{% block include_css %}
+{% endblock %}
+
+<style type="text/css">
+  #check_intro_pdf{
+    text-decoration: none;
+    color: black;
+  }
+  #check_intro_pdf:hover{
+    text-decoration: underline;
+    color: #FA5555;
+  }
+  .news_title{
+    font-size: 18pt;
+    border-bottom: 2px solid #fff100;
+    padding-bottom: 12px;
+    padding-top: 10px;
+  }
+  .news_subtitle{
+    font-size: 16pt;
+    border-bottom: 2px solid #fff100;
+    padding-bottom: 12px;
+    padding-top: 10px;
+  }
+  .news_content{
+    font-size: 13pt;
+    line-height: 18pt;
+    padding-top: 10px;
+  }
+  table{
+    border-collapse: separate;
+    border-spacing: 5px 0px;
+    margin-left: 35px;
+  }
+  .thumb_frame{
+    width: 480px;
+    text-align: center;
+  }
+  .thumb_frame img{
+    vertical-align: top;
+  }
+  .tab_content{
+    margin-top: 43px;
+  }
+  .news_info{
+    margin-left: 10px;
+    margin-right: 40px;
+    border: none;
+    /*min-width: 330px;*/
+    max-width: 700px;
+  }
+  #contact_us_form{
+    width: 94%;
+    height: 500px;
+    background-color: #fff100;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    position: relative;
+  }
+  .half_row{
+    width: 50%;
+    float: left;
+    margin-bottom: 15px;
+  }
+  .full_row{
+    width: 100%;
+    float: left;
+    margin-bottom: 15px;
+  }
+  .form_label{
+    float: left;
+    width: 85px;
+    text-align: justify;
+    text-justify:inter-ideograph;
+    word-spacing: 28px;
+    white-space: nowrap;
+  }
+  .input_field{
+    float: left;
+    width: 72%
+  }
+</style>
+
+{% include "segment/TabJS.html" %}
+
+<div id="body">
+  <div id="tabs" style="margin-left: 50px">
+    <div id="tab1" class="tab ordinary_focus focus">{{lang|translation('Showcase2')}}</div>
+    <div id="tab2" class="tab" style="border-right: 2px solid #fff100">{{lang|translation('ContactUs2')}}</div>
+    <div class="clear"></div>
+  </div>
+  <div id="innerpage_content_block" style="margin-left: 50px; margin-right: 50px; margin-top: -2px; border: 2px solid #fff100; margin-bottom: 40px; padding-bottom: 40px">
+    
+    <table id="tab1_content" width="98%" class="tab_content">
+      <tr>
+        <td colspan="2">
+          <div style="margin-top: 10px; margin-bottom: 30px; margin-left: 0px">
+            <a id="check_intro_pdf" href="https://goo.gl/VFBzPZ" target="_blank">>> 查看過去的合作案例</a>
+          </div>
+        </td>
+      </tr>
+      {% for item in cooperations %}
+      <tr>
+        <td valign="top" width="490">
+          <div class="thumb_frame">
+            <div style="float: left; width: 270px; height: 180px; margin-right: 5px; overflow: hidden">
+              <img src="{{item.image_urls[0]}}=s270" width="270" height="180" />
+            </div>
+            {% if item.image_urls|length > 3 %}
+            <div style="float: left; width: 200px; height: 180px; overflow: hidden">
+              <div style="float: left; width: 200px; height: 95px; overflow: hidden; margin-bottom: 5px">
+                <img src="{{item.image_urls[1]}}=s200-c" />
+              </div>
+              <div style="float: left; width: 90px; height: 80px; overflow: hidden">
+                <img src="{{item.image_urls[2]}}=s90-c" />
+              </div>
+              <div style="float: left; width: 105px; height: 80px; overflow: hidden; margin-left: 5px">
+                <img src="{{item.image_urls[3]}}=s105-c" />
+              </div>
+            </div>
+            {% else %}
+            <div style="float: left; width: 200px; height: 180px; overflow: hidden">
+              <div style="float: left; width: 200px; height: 180px; overflow: hidden; margin-bottom: 5px">
+                <img src="{{item.image_urls[1]}}=s200-c" />
+              </div>
+            </div>
+            {% endif %}
+            <div style="clear: both"></div>
+          </div>
+        </td>
+        <td valign="middle">
+          <div class="news_info">
+            <div class="news_title">{{item.name}}</div>
+            <div class="news_subtitle">{{item.subtitle}}</div>
+            <div class="news_content">
+              {{lang|translation('Date')}} | {{item.event_time|datetimeformat_withhour}}<br/>
+              {{lang|translation('Location')}} | {{item.location}}<br/>
+              {{lang|translation('Content')}} | {% autoescape false %}
+                {{item.description|url_to_hyperlink}}
+              {% endautoescape %}
+            </div>
+          </div>
+        </td>
+      </tr>
+        {% if not loop.last %}
+          <tr height="50"><td></td></tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        if($(window).width() < 1000){
+          $("#tab1_content").find('tr').each(function(){
+            var total_width = $(this).width();
+            var pics_frame_width = $(this).find('.thumb_frame').width();
+            var text_area_width = total_width - pics_frame_width - 175;
+            if($(this).find('.thumb_frame').length > 0){
+              $(this).find('.news_info').width(text_area_width);
+            }
+          });
+        }
+      });
+    </script>
+
+    <table id="tab2_content" width="100%" class="tab_content" style="display: none">
+      <tr>
+        <td valign="top">
+          <div id="contact_us_form">
+            {% if page_type == 'normal' %}
+            <div id="form_header" style="position: absolute; top: 14px; left: 29px; font-size: 13pt; border-bottom: 1px solid white; width: 95%">
+              <img src="/media/img/contact_form_header_icon.png" style="vertical-align: middle; float: left">
+              <span style="padding-bottom: 5px; margin-left: 10px;float: left;width: 90%;line-height: {% if lang == 'tw' %} 58px {% else %} 28px {% endif %}">
+                {{lang|translation('ThanksForYourInterest')}}
+              </span>
+            </div>
+            <div id="form_body" style="width: 90%; position: relative; top: 95px; left: 40px;">
+              <form id="contact_form" class="pure-form pure-form-aligned" method="post" action="/contact_us_form_submit" enctype="multipart/form-data">
+                <fieldset>
+                  <div class="half_row vertical_align">
+                    <div class="form_label">{{lang|translation('Name')}}</div>
+                    <div class="input_field">
+                      <input type="text" class="form_content" name="name">
+                    </div>
+                  </div>
+                  <div class="half_row vertical_align">
+                    <div class="form_label">{{lang|translation('PhoneNumber')}}</div>
+                    <div class="input_field">
+                      <input type="text" class="form_content" name="tel">
+                    </div>
+                  </div>
+                  <div class="half_row vertical_align">
+                    <div class="form_label">{{lang|translation('Email')}}</div>
+                    <div class="input_field">
+                      <input type="text" class="form_content" name="email">
+                    </div>
+                  </div>
+                  <div class="half_row vertical_align">
+                    <div class="form_label">{{lang|translation('Company')}}</div>
+                    <div class="input_field">
+                      <input type="text" class="form_content option" name="company">
+                    </div>
+                  </div>
+                  <!--
+                  <div class="full_row vertical_align">
+                    <div class="form_label">單位簡介</div>
+                    <div class="input_field" style="width: 86%"><input type="text" style="width: 100%" class="form_content" name="company_desc"></div>
+                  </div>
+                  <div class="half_row vertical_align">
+                    <div class="form_label">職 稱</div>
+                    <div class="input_field"><input type="text" class="form_content" name="title"></div>
+                  </div>
+                  -->
+                  <div class="full_row">
+                    <div class="form_label" style="margin-top: 8px">{{lang|translation('Message')}}</div>
+                    <div class="input_field">
+                      <textarea style="width: 50%; height: 150px" class="form_content" name="proposal"></textarea>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div style="position: absolute; right: -10px; bottom: -10px">
+              <img id="contact_form_submit_btn" src="/media/img/contact_form_submit_btn.png" style="margin-bottom: 40px; cursor: pointer" />
+              <img src="/media/img/contact_form_deco.png" />
+            </div>
+            {% endif %}
+
+            {% if page_type == 'after_submit' %}
+            <script type="text/javascript">
+              $(document).ready(function(){
+                $("#tab2").click();
+              });
+            </script>
+            <div id="after_submit_prompt" style="background: url(/media/img/dialog_frame.png) no-repeat 0px 150px; width: 400px; height: 200px;margin-left: auto;margin-right: auto; padding-top: 187px;padding-left: 30px;font-size: 12pt;line-height: 17pt">
+              {% autoescape false %}
+                {{lang|translation('MessageSendSuccess')}}
+              {% endautoescape %}
+            </div>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+    </table>
+    <script type="text/javascript">
+      $(document).ready(function(){
+         $('.vertical_align').each(function(){
+            var v_height = $(this).height();
+            console.log(v_height);
+            if(v_height == 0){
+              v_height = 36;
+            }
+            $(this).find('.form_label').css('line-height', v_height+'px');
+         });
+
+         $('.form_content').each(function() {
+            if($(this).hasClass('option')){
+              $(this).attr('placeholder', '{{lang|translation("Optional")}}');
+            }
+            else{
+              $(this).attr('placeholder', '{{lang|translation("Required")}}');
+            }
+         });
+
+         $(document).on('mouseover', '#contact_form_submit_btn', function(){
+            $(this).attr('src', '/media/img/contact_form_submit_btn_hover.png');
+         });
+         $(document).on('mouseout', '#contact_form_submit_btn', function(){
+            $(this).attr('src', '/media/img/contact_form_submit_btn.png');
+         });
+         $(document).on('keyup', '.form_content', function(){
+            if($(this).val() != ''){
+              $(this).css('border', '1px solid #ccc');
+            }
+         });
+         $(document).on('click', '#contact_form_submit_btn', function(){
+            var blank_input = false;
+            $('.form_content').each(function(){
+              if(!$(this).hasClass('option')){
+                if($(this).val() == ''){
+                  $(this).attr('placeholder', '{{lang|translation("Required")}}').css('border', '1px solid red');
+                  blank_input = true;
+                }
+              }
+            });
+            if(blank_input == false){
+              $('#contact_form').submit();
+            }
+            else{
+              alert('{{lang|translation("PleaseFill")}}');
+            }
+         });
+      });
+    </script>
+  </div>
+</div>
+
+{% endblock %}

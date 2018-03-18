@@ -1,0 +1,50 @@
+{% extends 'Base.html' %}
+
+{% block title %}
+    <title>商品頁</title>
+{% endblock %}
+
+{% block meta %}
+    <meta property="og:title" content="{{product.name}}"/>
+    <meta property="og:type" content="product"/>
+    <meta property="og:image" content="{{product.fanshop_source}}" />
+    <meta property="og:url" content="http://{{host}}/{{product.fb_id}}" />
+    <meta property="og:description" content="{{product.fanshop_description}}" />
+    <meta property="og:site_name" content="Fanshop" />
+    <meta property="fb:admins" content="100000703046844" />
+{% endblock %}
+
+{% block include_js %}
+    <script type="text/javascript" src="/media/tinyscrollbar/js/jquery.tinyscrollbar.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block js_declare %}
+    <script type="text/javascript">
+    	console.log('oid: {{oid}}');
+    </script>
+{% endblock %}
+
+<script type="text/javascript">
+{% block if_not_authorized %}
+// do nothing
+{% endblock %}
+
+{% block if_not_login %}
+    {% ifequal iid '765786350099013' %}
+        _gaq.push(['_trackEvent', 'TargetBidPage', 'Complete user identify', 'Uid:'+__getUserId()]);
+    {% endifequal %}
+{% endblock %}
+
+{% block if_not_authorized %}
+    {% ifequal iid '765786350099013' %}
+        _gaq.push(['_trackEvent', 'TargetBidPage', 'Complete user identify', 'Uid:'+__getUserId()]);
+    {% endifequal %}
+{% endblock %}
+
+{% block confirm_user_id_callback %}
+    {% ifequal iid '765786350099013' %}
+        _gaq.push(['_trackEvent', 'TargetBidPage', 'Complete user identify', 'Uid:'+__getUserId()]);
+    {% endifequal %}
+{% endblock %}
+</script>

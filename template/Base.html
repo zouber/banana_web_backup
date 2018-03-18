@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="{{lang|translation('WelcomeTitle')}}">
+    <meta name="keywords" content="{{lang|translation('BananaMan')}},{{lang|translation('BananaCamera')}},{{lang|translation('CharacterEconomics')}},{{lang|translation('SambarDeerTech')}}">
+
+    <meta property="og:title" content="{{lang|translation('SambardeerTechWebsite')}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="http://www.sambardeer.co/media/img/sambardeer_illus.png" />
+    <meta property="og:url" content="http://www.sambardeer.co{{path}}" />
+    <meta property="og:description" content="{{lang|translation('CompanyIntro')}}" />
+    <meta property="og:site_name" content="{{lang|translation('SambarDeerTech')}}" />
+
+    {% block title %}<title>{{lang|translation('WelcomeTitle')}}｜{{lang|translation('AgencyOfBananaMan')}} - {{page_name|get_page_name}}</title>{% endblock %}
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    {% block include_css %}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="/media/css/base.css?version={{version}}">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/media/js/common.js"></script>
+    <!--<script type="text/javascript" src="/media/js/jquery-ui/jquery-ui.min.js"></script>-->
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px; width: 100%">
+    <div id="header">
+      <a href="/">
+        <div id="sambardeer_logo" style="float: left; margin-top: 20px; background: url(/media/img/sambardeer_logo.png) no-repeat; width: 180px; height: 80px"></div>
+      </a>
+      <div id="header_icons" style="float: right; margin-right: 44px; margin-top: 20px; margin-bottom: 10px">
+        <div id="lang_menu">
+          <div class="lang_item" id="tw">中文</div>
+          <div class="lang_item" id="jp">日本語</div>
+          <div class="lang_item" id="en">English</div>
+        </div>
+
+        <div style="clear: both"></div>
+
+        <div class="{{page_name|decide_header_icon_class(1)}}"><div class="text"><a href="/">{{lang|translation('MainPage')}}</a></div></div>
+
+        <div class="{{page_name|decide_header_icon_class(2)}}"><div class="text"><a href="/news">{{lang|translation('News')}}</a></div></div>
+        
+        <div class="{{page_name|decide_header_icon_class(3)}}"><div class="text"><a href="/about_us">{{lang|translation('AboutUs')}}</a></div></div>
+        
+        <div class="{{page_name|decide_header_icon_class(4)}}"><div class="text"><a href="/story">{{lang|translation('StoryIntro')}}</a></div></div>
+
+        <div class="{{page_name|decide_header_icon_class(5)}}"><div class="text"><a href="/product">{{lang|translation('Products')}}</a></div></div>
+        <div class="{{page_name|decide_header_icon_class(6)}}"><div class="text"><a href="/download">{{lang|translation('Download')}}</a></div></div>
+        <div class="{{page_name|decide_header_icon_class(7)}}"><div class="text"><a href="/cooperation">{{lang|translation('Showcase')}}</a></div></div>
+
+        <div class="{{page_name|decide_header_icon_class(8)}}"><div class="text"><a href="https://www.facebook.com/hibananaman">{{lang|translation('Facebook')}}</a></div></div>
+        <div class="{{page_name|decide_header_icon_class(9)}}"><div class="text"><a href="https://store.line.me/stickershop/product/4586/zh-Hant">{{lang|translation('LineSticker')}}</a></div></div>
+        <div class="{{page_name|decide_header_icon_class(10)}}" style="border-right: none; margin-right: 0px; padding-right: 0px"><div class="text"><a href="http://banantalk.tumblr.com/">{{lang|translation('Tumblr')}}</a></div></div>
+        <!--
+        <a title="香蕉人粉絲團！" href="https://www.facebook.com/hibananaman" target="_blank">
+          <div class="header_icon fb"></div>
+        </a>
+        <a title="香蕉人Line貼圖～" href="https://store.line.me/stickershop/product/3721/zh-Hant" target="_blank">
+          <div class="header_icon line" style="width: 62px; height: 65px"></div>
+        </a>
+        <a title="香蕉人談角色經濟" href="http://banantalk.tumblr.com/" target="_blank">
+          <div class="header_icon tumblr" style="width: 62px; height: 62px"></div>
+        </a>-->
+      </div>
+    </div>
+
+    {% block body %}
+    {% endblock %}
+
+    <div id="footer">
+      <div class="footer_icon first">
+        <a href="/sitemap">{{lang|translation('SiteMap')}}</a>
+      </div>
+      <div class="footer_separator">|</div>
+      <div class="footer_icon">
+        <a target="_blank" href="mailto:sambardeerinc@gmail.com">{{lang|translation('ContactUs')}}</a>
+      </div>
+      
+      <div class="footer_separator">|</div>
+      <div class="footer_icon">{{dict['Subscribe']}}</div>
+      <input type="text" id="epaper_subscribe_email" placeholder="{{dict['EnterEmailPrompt']}}" style="padding-left: 6px; font-size: 11pt" />
+      <div class="footer_icon" id="subscription" style="cursor: pointer">{{lang|translation('Subscribe')}}</div>
+      <div class="footer_separator">|</div>
+      <div class="footer_icon" id="cancel_subscription" style="cursor: pointer">{{lang|translation('Cancel')}}</div>
+      
+      <div class="footer_icon" style="float: right; margin-right: 15px">© 2015 SambarDeer Tek</div>
+    </div>
+    <script type="text/javascript">
+      function validateEmail(email) { 
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      }
+
+      function epaperSubscribe(){
+        var email = $('#epaper_subscribe_email').val();
+        if(email == ''){
+          return false;
+        }
+        if(!validateEmail(email)){
+          alert('{{lang|translation("EmailFormatInvalid")}}');
+          $('#epaper_subscribe_email').focus();
+          return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/add_subscribe_member",
+            data: {email: email}
+        }).done(function(response){
+            if(response.status){
+              console.log(response.data);
+              alert('{{lang|translation("ThankForSubscribe")}}');
+              $('#epaper_subscribe_email').val('');
+            }
+        });
+      }
+      $(".header_icon").on('mouseover', function(){
+        $(this).find('a').css('color', '#fff100');
+      });
+      $(".header_icon").on('mouseout', function(){
+        $(this).find('a').css('color', '#585956');
+      });
+      $('.lang_item').on('click', function(){
+        var select_lang = $(this).attr('id');
+        var current_lang = Cookie.read('lang');
+
+        if(select_lang != current_lang){
+          Cookie.create('lang', select_lang);
+          document.location.href = document.location.href;
+        }
+      });
+      $("#epaper_subscribe_email").keyup(function(e){
+        if(e.keyCode == '13'){
+          epaperSubscribe();
+        }
+      });
+      $(document).on('click', '#subscription', function(){
+        epaperSubscribe();
+      });
+      $(document).on('click', '#cancel_subscription', function(){
+        $('#epaper_subscribe_email').val('');
+      });
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-59695012-1', 'auto');
+      ga('send', 'pageview');
+
+      if(Cookie.read('lang') === null){
+        Cookie.create('lang', 'tw');
+      }
+      var lang = Cookie.read('lang');
+      $('#'+lang).addClass('selected');
+
+    </script>
+  </body>
+</html>
+{% endautoescape %}

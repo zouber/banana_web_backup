@@ -1,0 +1,190 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+    <meta name="description" content="Fanshop - 粉絲團的貼心小助理!">
+    <meta name="keywords" content="Fanshop,女性服飾,飾品,保養品,生活品味,代言,部落客">
+    {% block meta %}{% endblock %}
+    {% block title %}<title>Fanshop</title>{% endblock %}
+    <link rel="stylesheet"  href="/media/css/common.css">
+    <link href="/media/css/3rd-party/jquery-ui/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Economica' rel='stylesheet' type='text/css'>
+    {% block include_css %}
+    {% endblock %}
+    {% include "segment/jQuery.html" %}
+    {% include "segment/IncludeBasicJS.html" %}
+    <script src="/media/js/brandpage_common.js"></script>
+    <script src="/media/js/auth.js"></script>
+    <script src="/media/js/facebook.js"></script>
+    <script src="/media/js/3rd-party/mustache.js"></script>
+    <script src="/media/js/3rd-party/ellipsis.js"></script>
+    {% block include_js %}
+    {% endblock %}
+    {% include "segment/GoogleAnalytics.html" %}
+    
+    {% block js_declare %}
+    {% endblock %}
+    <script>
+        var RID = "{{RID}}";
+        RID = Fanshop.initTrackingRoutine(RID);
+        
+        function loadScript(url, id, callback) {
+            var script_node = document.getElementsByTagName('script')[0];
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+
+            if (document.getElementById(id)) return;
+
+            if (script.readyState) {
+                // IE
+                script.onreadystatechange = function() {
+                    if (script.readyState == "loaded" || script.readyState == "complete") {
+                        script.onreadystatechange = null;
+                        if ( typeof callback !== "undefined")
+                            callback();
+                    }
+                };
+            } else {
+                //Others
+                script.onload = function() {
+                    if ( typeof callback !== "defined")
+                        callback();
+                };
+            }
+
+            script.src = url;
+            script.id = id;
+            script_node.parentNode.insertBefore(script, script_node);
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+    </script>
+    {% block last_head_js %}
+    {% endblock %}
+</head>
+<body style="background: #f6f5f1;">
+<div id="fb-root"></div>
+<script type="text/javascript">
+    var uid = 0;
+    var accessToken = '';
+    var uname = '';
+    
+    var iid = 0;
+    var pid = 0;
+    var pname = "";
+    var plink = "";
+    var auth_info = "";
+    
+    {% block fb_auth_pre_process %}
+    {% endblock %}
+
+    $(document).ready(function() {
+      $.ajaxSetup({ cache: true });
+      __setMaskSize()
+      $(window).resize(function(){
+        __setMaskSize();
+      });
+      $.getScript('//connect.facebook.net/zh_TW/sdk.js#version=v2.0&xfbml=1', function(){
+        FB.init({
+          appId       :  appId,
+          version     : 'v2.0',
+          status      :  true, // check login status
+          cookie      :  true, // enable cookies to allow the server to access the session
+          xfbml       :  true  // parse XFBML
+        });     
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                // the user is logged in and has authenticated your
+                // app, and response.authResponse supplies
+                // the user's ID, a valid access token, a signed
+                // request, and the time the access token 
+                // and signed request each expire
+                uid = response.authResponse.userID;
+                accessToken = response.authResponse.accessToken;
+                
+                FB.api('/me/?access_token='+accessToken, function(response) {
+                    uname = response.name;
+                    $("#user_name").text(uname);
+                    $("#user_name").attr('title', '');
+                    $("#user_thumb").attr('src', 'http://graph.facebook.com/'+uid+'/picture?type=square');
+                });
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/api/queryUserAdminAuth/",
+                    data: {uid: uid}
+                }).done(function( response ){
+                    // is administrator
+                    if(response.status == true){
+                        var vid = response.data.vid;
+                        var append_html = '<div id="product_admin" name="'+vid+'" class="btn" style="line-height: 20px; font-size: 12px; color: white; margin-right: 5px; ">上架管理</div>' + '<div id="payment_confirm" name="'+vid+'" class="btn" style=" line-height: 20px; font-size: 12px; color: white; margin-right: 5px; ">訂單核對</div>' + '<div id="inventory_management" name="'+vid+'" class="btn" style="line-height: 20px; font-size: 12px; color: white; margin-right: 5px; ">出貨管理</div>' + '<div id="member_admin" name="'+vid+'" class="btn" style="line-height: 20px; font-size: 12px; color: white; margin-right: 5px; ">會員管理</div>';
+                        $("#vender_admin_block").html(append_html);
+                        $("#main_container,#photo_window").css('margin-top', '10px');
+                        $("#vender_admin_navigate").show();
+                    }
+                });
+                
+                {% block confirm_user_id_callback %}
+                {% endblock %}
+                
+                $("#fblogout").show();
+                $("#fblogin").hide();
+            }
+            else if (response.status === 'not_authorized') {
+                //console.log('not_authorized');
+                // the user is logged in to Facebook, 
+                // but has not authenticated your app
+                //alert(response.status);
+                $("#fblogout").hide();
+                $("#fblogin").show();
+                uid = -1;
+                {% block if_not_authorized %}
+                document.location.href = '/';
+                {% endblock %}
+            } 
+            else {
+                // the user isn't logged in to Facebook.
+                //alert(response.status);
+                //console.log('not login');
+                $("#fblogout").hide();
+                $("#fblogin").show();
+                uid = -1;
+                {% block if_not_login %}
+                document.location.href = '/';
+                {% endblock %}
+            }
+            {% block complet_fb_auth_callback %}
+            {% endblock %}
+        });
+      });
+    });
+</script>
+
+<div id="mask" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; opacity: 0.9; -moz-opacity: 0.9; filter:alpha(opacity=90);; background-color: white; display: none; z-index: 999">
+</div>
+<div id="loading" style="position: absolute; top: 0px; left: 0px; width: 60px; height: 40px; z-index: 1000; font-size: 10px; text-align: center; display: none">
+    <img src="/media/img/loading.gif" />
+    Loading
+</div>
+
+<div id="prompt" style="padding: 17px; background-color: black; color: white; position: absolute; top: 0px; left: 0px; display: none; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; z-index: 1001">
+</div>
+{% block outer_container %}
+<div style="margin: 0 auto;  width:  970px; ">
+    {% include "segment/SideBar.html" %}
+
+    {% block main_container %}
+    <div id="main_container" style="float: left; width: 890px; background: url(/media/img/transparent_background.png) repeat; border: 0px solid black; display: none; -moz-box-shadow: 2px 2px 10px 2px #888; -webkit-box-shadow: 2px 2px 10px 2px #888; box-shadow: 2px 2px 10px 2px #888; padding-left: 39px; padding-right: 29px; padding-top: 28px; padding-bottom: 20px; font-family: Arial; font-size: 12px; min-height: 500px">
+        {% block main_content %}{% endblock %}
+    </div>
+    {% endblock %}
+
+</div>
+{% endblock %}
+
+    {% block js_function %}
+    {% endblock %}
+    
+    {% block js_handler %}
+    {% endblock %}
+</body>
+</html>

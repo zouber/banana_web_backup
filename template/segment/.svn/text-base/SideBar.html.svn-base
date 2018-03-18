@@ -1,0 +1,48 @@
+<div id="top_bar" style=" width: 990px; height: 50px; background: transparent; margin-top: -10px; z-index:9999;">
+    <div id="logo_not_link" style="float: left; margin-top: 6px; margin-left: 0px; width: 180px; height: 30px; border: 0px; ">
+        <img style="width: 180px; height: 30px; overflow: hidden; " src="/media/img/logo_horizontal_type.png" />
+    </div>
+    <a target="_blank" href="http://www.ingrid.tw" style="text-decoration: none; ">
+        <div id="ingrid_logo" style="display: none; float: left; width: 250px; height: 40px; background-color: rgb(143, 205, 182);">
+            <div style="float: left; font-family: Cantarell; font-size: 28px; color: white; margin-left: 35px;">INGRID</div>
+            <div style="float: left; font-family: arial; font-size: 12px; color: #4b340a; margin-top: 19px;margin-left: 10px;">BOUTIQUE</div>
+        </div>
+    </a>
+    <a target="_blank" href="http://www.halonung.com.tw" style="text-decoration: none; ">
+        <div id="halonung_logo" style="display: none; float: left; width: 280px; height: 40px; background-color: rgb(143, 205, 182); background-position: initial initial; background-repeat: initial initial;">
+        <img style="width: 150px;margin-top: 10px;margin-left: 10px; float: left;" src="/media/img/halonung_logo.png">
+        <div style="float: right; font-family: arial; font-size: 12px; color: #4b340a; margin-top: 18px;margin-right: 10px;">Sweety Purchase</div>
+        </div>
+    </a>
+    <div id="fanshop_slogan" style="float: left; font-size: 12px; color: #5A4A42; margin-top: 15px; margin-left: 10px; ">粉絲團的貼心小助理</div>
+    <div id="toolbar" style="float: right; ">
+        <!--<img style="float: left; margin-top: 8px;" class="btn" onclick="__notCompletePrompt();" src="/media/img/search_bar.png" />-->
+        <div style="float: left; margin-left: 25px; height: 30px; text-align: center; background: #867c72; border: 1px outset #bbb4ad; box-shadow: 1px 1px 5px gray; ">
+            <img id="user_thumb" width="31" style="vertical-align: middle" src="http://graph.facebook.com//picture?type=square" />
+            <span id="user_name" title="點我登入" style="margin: 5px 8px 5px 5px; font-size: 13px; font-weight: 600; color: #f29702; font-family: Arial">未登入</span>
+        </div>
+        <div id="vender_admin_navigate" style="display: none;  float: left; font-size: 13px; text-align: center; background: #f7a722; border: 1px outset #f7bc5b; box-shadow: 1px 1px 5px gray; cursor: pointer; ">
+            <div style="float: left; height: 30px; margin: 0px 10px 0px 15px; ">
+                <div style="float: left; color: white; font-size: 13px; margin: 8px 3px 8px 8px; letter-spacing: 0px;">網站管理</div>
+                <div id="arrow" style="float: left; margin: 12px 5px 0px 1px;  width: 0px; height: 0px; border-top: 8px solid white; border-left: 4px solid transparent; border-right: 4px solid transparent; "></div>
+            </div>
+            <div id="vender_admin_btn" style="position: absolute; width: 104px; height: 40px; background: transparent; "></div>
+        </div>
+        <div style="float: left; font-size: 13px; text-align: center; background: #867c72; box-shadow: 1px 1px 5px gray; border: 1px outset #bbb4ad; -webkit-border-bottom-right-radius: 3px; -moz-border-bottom-right-radius: 3px; -ms-border-bottom-radius: 3px; cursor: pointer; ">
+            <div style="float: left;  height: 30px; margin: 0px 19px; ">
+                <div style="float: left;   color: white; font-size: 13px; margin: 8px 3px 8px 5px; ">購物車</div>
+                <div id="arrow" style="float: left; margin: 12px 5px 0px 1px;  width: 0px; height: 0px; border-top: 8px solid white; border-left: 4px solid transparent; border-right: 4px solid transparent; "></div>
+            </div>
+             <div id="selections" style="position: absolute; width: 86px; height: 40px; background: transparent; "></div>
+        </div>
+    </div>
+</div>
+<div id="selections_block" style="display: none; position: absolute; z-index: 9999; width: 101px; padding: 8px 0px; background: #867c72; -webkit-border-radius: 0px 0px 3px 3px; -moz-border-radius: 0px 0px 3px 3px; -ms-border-radius: 0px 0px 3px 3px; text-align: center; border-top: 1px groove #bbb4ad; ">
+    <div id="unpaid_order_check" class="btn" style=" line-height: 20px; font-size: 12px; color: white">購物清單</div>
+    <div id="paid_order_check" class="btn" style=" line-height: 20px; font-size: 12px; color: white">訂單查詢</div>
+    <p id="fblogin" class="btn" style="color: white; margin: 3px; font-size: 12px; "  >登入</p>
+    <p id="fblogout" class="btn" style="color: white; margin: 3px; font-size: 12px; "  >登出</p>
+    <!--<span id="settings" class="btn" style="padding-left: 62px; line-height: 20px; font-size: 9pt; color: #614d40">帳號設定</span>-->
+</div>
+<div id="vender_admin_block" style="display: none; position: absolute; z-index: 9999; margin-top: -2px; padding: 8px 0px;  width: 104px; border-top: 1px groove #f7bc5b; background: #f7a722; -webkit-border-radius: 0px 0px 3px 3px; -moz-border-radius: 0px 0px 3px 3px; -ms-border-radius: 0px 0px 3px 3px; text-align: center; ">
+</div>

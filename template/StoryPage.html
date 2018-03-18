@@ -1,0 +1,186 @@
+{% extends "Base.html" %}
+{% block body %}
+
+<style type="text/css">
+  .story_title{
+    font-size: 18pt;
+    border-bottom: 2px solid #fff100;
+    padding-bottom: 12px;
+    padding-top: 10px;
+  }
+  .story_content{
+    font-size: 13pt;
+    line-height: 18pt;
+    padding-top: 10px;
+  }
+  table{
+    border-collapse: separate;
+    border-spacing: 5px 30px;
+    margin-left: 35px;
+  }
+  .story_thumb_frame{
+    width: 317px;
+    height: 178px;
+    overflow: hidden;
+  }
+  
+  .news_info{
+    margin-left: 10px;
+    margin-right: 40px;
+    border: none;
+    min-width: 360px;
+    max-width: 750px;
+  }
+</style>
+
+{% include "segment/TabJS.html" %}
+
+<div id="body">
+  <div id="tabs" style="margin-left: 50px">
+    <div id="tab1" class="tab ordinary_focus focus">{{lang|translation('Story')}}</div>
+    <div id="tab2" class="tab">{{lang|translation('Characters')}}</div>
+    <div id="tab3" class="tab" style="border-right: 2px solid #fff100">{{lang|translation('SDwonderland')}}</div>
+    <div class="clear"></div>
+  </div>
+  <div id="innerpage_content_block" style="margin-left: 50px; margin-right: 50px; margin-top: -2px; border: 2px solid #fff100; margin-bottom: 40px; padding-bottom: 40px">
+    
+    <table id="tab1_content" width="98%" class="tab_content">
+      {% for item in story %}
+      <tr>
+        <td width="317" valign="top">
+          <div class="story_thumb_frame">
+            <img src="{{item.image}}" width="317" />
+          </div>
+        </td>
+        <td valign="middle">
+          <div class="news_info">
+            <div class="story_title">{{item.title}}</div>
+            <div class="story_content">
+              {% autoescape false %}{{item.content}}{% endautoescape %}
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <table id="tab2_content" width="98%" class="tab_content" style="margin-top: 25px; display: none; border-collapse: separate; border-spacing: 0px 0px">
+      <tr>
+        <td>
+          <img title="{{lang|translation('CheckBananaMansProfile')}}" class="character_icon banana_man focus" src="/media/img/banana_man_icon_clicked.png" style="cursor: pointer" />
+          <img title="{{lang|translation('CheckBananaGirlsProfile')}}" class="character_icon banana_girl" src="/media/img/banana_girl_icon.png" style="margin-left: 10px; cursor: pointer" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img class="character_intro banana_man" src="/media/img/banana_man_intro1.png" />
+          <img class="character_intro banana_girl" src="/media/img/banana_girl_intro1.jpg" style="display: none" />
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/javascript">
+      function characterIconHighlight(icon_obj){
+        if(!icon_obj.hasClass('focus')){
+          if(icon_obj.hasClass('banana_man')){
+            icon_obj.attr('src', '/media/img/banana_man_icon_clicked.png');
+          }
+          else{
+            icon_obj.attr('src', '/media/img/banana_girl_icon_clicked.png');
+          }
+        }
+      }
+
+      function characterIconBackToNormal(icon_obj) {
+        if(!icon_obj.hasClass('focus')){
+          if(icon_obj.hasClass('banana_man')){
+            icon_obj.attr('src', '/media/img/banana_man_icon.png');
+          }
+          else{
+            icon_obj.attr('src', '/media/img/banana_girl_icon.png');
+          }
+        }
+      }
+
+      $(document).on('mouseover', '.character_icon', function () {
+        characterIconHighlight($(this));
+      });
+      $(document).on('mouseout', '.character_icon', function () {
+        characterIconBackToNormal($(this));
+      });
+      $(document).on('click', '.character_icon', function(){
+        $('.character_intro').hide();
+        $('.focus').removeClass('focus');
+        if($(this).hasClass('banana_man')){
+          $('.character_intro.banana_man').show();
+          characterIconBackToNormal($('.character_icon.banana_girl'));
+        }
+        else{
+          $('.character_intro.banana_girl').show();
+          characterIconBackToNormal($('.character_icon.banana_man'));
+        }
+        characterIconHighlight($(this));
+        $(this).addClass('focus');
+      });
+    </script>
+
+    <table id="tab3_content" width="98%" class="tab_content" style="margin-top: 25px; display: none; border-collapse: separate; border-spacing: 0px 0px">
+      <!--<tr>
+        <td>
+          <div class="image media_icon_focus"><div class="text single_line">漫畫</div></div>
+          <div class="video media_icon" style="margin-bottom: 15px"><div class="text single_line">動畫</div></div>
+        </td>
+      </tr>-->
+      <tr>
+        <td>
+          <div id="sd_media_image_content">
+          {% for item in sd_media_image %}
+            <div style="float: left; width: 428px; height: 280px; margin-bottom: 35px">
+              <img title="{{lang|translation('WatchBigImage')}}" class="comic_image" style="border: 2px solid black" src="{{item.file_url}}" width="390" />
+              <div style="margin-top: 10px">{{item.name}}</div>
+            </div>
+          {% endfor %}
+          </div>
+          <div id="sd_media_video_content" style="display: none">
+          {% for item in sd_media_video %}
+            <div style="float: left; width: 428px; height: 280px; margin-bottom: 35px; margin-right: 38px">
+              {% autoescape false %}
+                 {{item.file_url|generate_video_frame_html(428, 280)}}
+              {% endautoescape %}
+              <div style="margin-top: 10px">{{item.name}}</div>
+            </div>
+          {% endfor %}
+          </div>
+        </td>
+      </tr>
+    </table>
+    <script type="text/javascript">
+      $(document).on('click', '#tab3_content .media_icon', function(){
+        $("#tab3_content").find('.media_icon_focus').removeClass('media_icon_focus').addClass('media_icon');
+        $(this).addClass('media_icon_focus').removeClass('media_icon');
+        if($(this).hasClass('image')){
+          $('#sd_media_image_content').show();
+          $('#sd_media_video_content').hide();
+        }
+        else{
+          $('#sd_media_video_content').show();
+          $('#sd_media_image_content').hide();
+        }
+      });
+
+      $(document).on('click', '.comic_image', function(e){
+        var x =  e.pageX;
+        var y = e.pageY;
+        var style = 'position: absolute; left: ' + x + 'px; top: ' + y + 'px';
+        var imgurl = $(this).attr('src');
+        $('#view_comic_source').remove();
+        $('body').append('<div id="view_comic_source" style="'+style+'"><img src="'+imgurl+'" /></div>');
+      });
+      $(document).on('mouseout', '.comic_image', function(e){
+        $('#view_comic_source').remove();
+      });
+    </script>
+  </div>
+</div>
+
+{% endblock %}

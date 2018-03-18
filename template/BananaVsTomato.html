@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="description">
+        <meta content="" name="author">
+
+        <meta property="og:title" content="番茄知識王"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:image" content="http://{{host}}/media/game/oct_stickers/img/homepage_bg.png" />
+        <meta property="og:description" content="" />
+
+        <meta name="screen-orientation" content="landscape">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+        <title>番茄知識王</title>
+        <link rel="shortcut icon" href="/media/banana_camera/favicon.ico">
+        <style type="text/css">
+            /* v1.0 | 20080212 */
+
+            html, body, div, span, applet, object, iframe,
+            h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, font, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0;
+                font-size: 100%;
+                vertical-align: baseline;
+                background: transparent;
+            }
+            body {
+                line-height: 1;
+            }
+            ol, ul {
+                list-style: none;
+            }
+            blockquote, q {
+                quotes: none;
+            }
+            blockquote:before, blockquote:after,
+            q:before, q:after {
+                content: '';
+                content: none;
+            }
+
+            /* remember to define focus styles! */
+            :focus {
+                outline: 0;
+            }
+
+            /* remember to highlight inserts somehow! */
+            ins {
+                text-decoration: none;
+            }
+            del {
+                text-decoration: line-through;
+            }
+
+            /* tables still need 'cellspacing="0"' in the markup */
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+        <script src="/media/js/common.js?v={{version}}"></script>
+    </head>
+    <body style="background: url(/media/game/banana_vs_tomato/img/bk_2.png); margin: 0px; text-align: center">
+        <!--<div id="input_name" style="position: absolute; top: 0px; left: 0px; display: none; width: 49%">
+            <form id="name_form" action="/banana_horoscope" method="post">
+                <input name="name" placeholder="請輸入您的大名" type="text" style="width: 100%; height: 25px; padding: 5px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;" />
+            </form>
+        </div>
+        <div id="draw_lots" style="width: 25%; position: absolute; top: 0px; left: 0px; display: none; cursor: pointer">
+            <img src="/media/game/oct_stickers/img/draw_lots_btn.png" width="100%" style="margin-bottom: -4px" />
+        </div>-->
+        <img id="main_background" style="margin-bottom: -4px" src="/media/game/banana_vs_tomato/img/entrypage_bg.png?v={{version}}" border="0" width="80%" />
+        
+        <div id="start_play" style="position: absolute; bottom: 100px; margin-left: auto; margin-right: auto; width: 100%">
+            <img style="cursor: pointer" src="/media/game/banana_vs_tomato/img/start_play.png" width="80%" />
+        </div>
+
+        <script>
+            
+
+            function LayoutAdjust(){
+                var main_background_zoom_ratio = parseInt($("#main_background").attr('width').replace('%', ''))/100;
+                var current_w = $(window).width() * main_background_zoom_ratio;
+                var origin_w = 750;
+                var zoom_ratio = current_w / origin_w;
+                var start_play_top = 1090 * zoom_ratio;
+                //var input_area_left = 212 * zoom_ratio;
+                //var draw_lots_top = 940 * zoom_ratio;
+                //var draw_lots_left = 469 * zoom_ratio;
+
+                //$("#input_name").css({'top': input_area_top+'px', 'left': input_area_left+'px', 'display': 'block'});
+                $("#start_play").css({'top': start_play_top+'px'});
+            }
+
+            function draw_lots_btn_twinkle(){
+                if($("#start_play img").hasClass('highlight')){
+                    $("#start_play img").removeClass('highlight');
+                    $("#start_play img").attr('src', '/media/game/banana_vs_tomato/img/start_play.png');
+                }
+                else{
+                    $("#start_play img").addClass('highlight');
+                    $("#start_play img").attr('src', '/media/game/banana_vs_tomato/img/start_play_highlight.png');
+                }
+            }
+
+            var btn_twinkle = 0;
+
+            $(document).ready(function() {
+                $("#start_play img").on('mouseover', function(){
+                    $(this).attr('src', '/media/game/banana_vs_tomato/img/start_play_highlight.png');
+                });
+                $("#start_play img").on('mouseout', function(){
+                    $(this).attr('src', '/media/game/banana_vs_tomato/img/start_play.png');
+                });
+
+                $("#start_play img").on('click', function(){
+                    document.location.href = '/banana_vs_tomato/rules';
+                });
+
+                LayoutAdjust();
+
+                $(window).resize(function(){
+                    LayoutAdjust();
+                });
+            });
+        </script>
+        <!-- END JAVASCRIPTS -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-59695012-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

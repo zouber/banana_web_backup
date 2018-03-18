@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>資料更新完成！</title>
+    <style type="text/css">
+      body{
+        font-family: Microsoft JhengHei;
+      }
+      .msg{
+        font-size: 28pt;
+        font-weight: 600;
+        margin: 10px;
+        float: left;
+      }
+      a{
+        font-size: 12pt;
+      }
+    </style>
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px; width: 100%">
+    <div class="msg">{{msg}}</div>
+    <div style="float: left; margin-top: 30px">
+      <a href="/backend"><span class="count_down">3</span>秒返回資料管理後台</a>
+    </div>
+    <script type="text/javascript">
+      function redirect(){
+        var count = parseInt($('.count_down').text());
+        count = count - 1;
+        if(count == 0){
+          document.location.href = '/backend';
+        }
+        else{
+          $('.count_down').text(count);
+        }
+      }
+
+      setInterval(function(){
+        redirect();
+      }, 1000);
+
+    </script>
+  </body>
+</html>
+{% endautoescape %}

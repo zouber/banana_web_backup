@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="description">
+        <meta content="" name="author">
+
+        <meta property="og:title" content="番茄知識王"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:image" content="http://{{host}}/media/game/oct_stickers/img/homepage_bg.png" />
+        <meta property="og:description" content="" />
+
+        <meta name="screen-orientation" content="landscape">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+        <title>番茄知識王</title>
+        <link rel="shortcut icon" href="/media/banana_camera/favicon.ico">
+        <style type="text/css">
+            /* v1.0 | 20080212 */
+
+            html, body, div, span, applet, object, iframe,
+            h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, font, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0;
+                font-size: 100%;
+                vertical-align: baseline;
+                background: transparent;
+            }
+            body {
+                line-height: 1;
+            }
+            ol, ul {
+                list-style: none;
+            }
+            blockquote, q {
+                quotes: none;
+            }
+            blockquote:before, blockquote:after,
+            q:before, q:after {
+                content: '';
+                content: none;
+            }
+
+            /* remember to define focus styles! */
+            :focus {
+                outline: 0;
+            }
+
+            /* remember to highlight inserts somehow! */
+            ins {
+                text-decoration: none;
+            }
+            del {
+                text-decoration: line-through;
+            }
+
+            /* tables still need 'cellspacing="0"' in the markup */
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+            .choice{
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 15px;
+                text-align: center;
+            }
+            .choice_text{
+                text-align: center;
+                font-size: 120%;
+                cursor: pointer;
+            }
+            .choice_bg img{
+                cursor: pointer;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+        <script src="/media/js/common.js?v={{version}}"></script>
+        <script src="/media/js/jquery.animateNumber.min.js"></script>
+    </head>
+    <body style="font-family: Arial; margin: 0px; margin-top: 10px; text-align: center; background: url(/media/game/banana_vs_tomato/img/bk_2.png)">
+        <div id="init_countdown_counter" style="position: absolute; top: 0px; left: 0px; width: 100%">3</div>
+        <div id="time_and_score" style="width: 100%">
+            <div id="score" style="float: right; width: 45%">
+                <img src="/media/game/banana_vs_tomato/img/score.png" width="100%" />
+                <div id="score_text" style="font-size: 70px">0</div>
+            </div>
+            <div id="countdown" style="float: right; width: 16%">
+                <div class="bg"><img src="/media/game/banana_vs_tomato/img/countdown_1.png" width="100%" /></div>
+                <div class="countdown_text" style="margin-left: auto;margin-right: auto;font-size: 70px;">{{original_remain_time}}</div>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+
+        <audio id="correct" type='audio/m4a' src="/media/game/banana_vs_tomato/audio/correct.m4a?version={{version}}">
+            <!--Audio not Support-->
+        </audio>
+
+        <audio id="wrong" type='audio/m4a' src="/media/game/banana_vs_tomato/audio/wrong.m4a?version={{version}}">
+            <!--Audio not Support-->
+        </audio>
+
+        <div id="question_and_illus" style="margin-top: 15px">
+            <div style="float: left; width: 55%; text-align: center">
+                <div id="question_text" style="width: 65%;float: right;font-size: 120%">請問茄紅素最主要的保健功能是什麼？</div>
+                <div style="width: 30%;float: right">
+                    <img src="/media/game/banana_vs_tomato/img/question_mark.png" width="100%">
+                </div>                
+            </div>
+
+            <div style="float: right; width: 45%">
+                <img class="illus" src="/media/game/banana_vs_tomato/img/illus_1.png" width="80%" />
+            </div>
+            <div style="clear; both"></div>
+        </div>
+
+        <div id="choices" style="margin-top: 20px">
+            <div id="1" class="choice">
+                <div class="choice_bg" style="float: left">
+                    <img src="/media/game/banana_vs_tomato/img/choice_bk.png" width="85%" style="cursor: pointer" />
+                </div>
+                <div class="choice_text" style="float: left; width: 100%">A. 抗氧化</div>
+            </div>
+            <div id="2" class="choice">
+                <div class="choice_bg" style="float: left">
+                    <img src="/media/game/banana_vs_tomato/img/choice_bk.png" width="85%" style="cursor: pointer" />
+                </div>
+                <div class="choice_text" style="float: left; width: 100%">B. 促進消化</div>
+            </div>
+            <div id="3" class="choice">
+                <div class="choice_bg" style="float: left">
+                    <img src="/media/game/banana_vs_tomato/img/choice_bk.png" width="85%" style="cursor: pointer" />
+                </div>
+                <div class="choice_text" style="float: left; width: 100%">C. 促進膠原蛋白增生</div>
+            </div>
+            <div id="4" class="choice">
+                <div class="choice_bg" style="float: left">
+                    <img src="/media/game/banana_vs_tomato/img/choice_bk.png" width="85%" style="cursor: pointer" />
+                </div>
+                <div class="choice_text" style="float: left;  width: 100%">D. 防止視網膜黃斑退化</div>
+            </div>
+        </div>
+
+        <div id="skip_btn" style="width: 100%">
+            <div style="margin-left: auto; margin-right: auto; cursor: pointer; width: 30%">
+                <img src="/media/game/banana_vs_tomato/img/skip.png" width="100%" />
+            </div>
+        </div>
+
+        <script>
+            var correct_audio_dom = document.getElementById('correct');
+            var wrong_audio_dom = document.getElementById('wrong');
+            var countdown_audio_dom = document.getElementById('countdown_audio_store');
+            var ticktock_audio_dom = document.getElementById('ticktock');
+
+            function LayoutAdjust(){
+                var countdown_zoom_ratio = 0.16;
+                var current_w = $(window).width() * countdown_zoom_ratio;
+                var origin_w = 448;
+                var zoom_ratio = current_w / origin_w;
+                var countdown_height = 567 * zoom_ratio;
+                var vertical_offset = parseInt(($(window).width() - 320) / 75);
+                $(".countdown_text").css({'margin-left': '8px' ,'margin-top': -1*countdown_height+3+vertical_offset+'px', 'line-height': countdown_height+'px',  'height': countdown_height+'px'});
+
+                var score_zoom_ratio = 0.45;
+                var current_w = $(window).width() * score_zoom_ratio;
+                var origin_w = 1177;
+                var zoom_ratio = current_w / origin_w;
+                var score_height = 567 * zoom_ratio;
+                $("#score_text").css({'margin-top': -1*score_height+'px', 'line-height': score_height+'px',  'height': score_height+'px'});
+
+                var choice_zoom_ratio = parseInt($(".choice img").attr('width').replace('%', ''))/100;
+                var current_w = $(window).width() * choice_zoom_ratio;
+                var origin_w = 2825;
+                var zoom_ratio = current_w / origin_w;
+                var choice_height = 631 * zoom_ratio;
+
+                $(".choice_text").css({'margin-top': -1*choice_height+'px', 'line-height': choice_height+'px',  'height': choice_height+'px'});
+
+                var window_w = $(window).width();
+
+                var score_text_size = (window_w - 320) / 12 + 40;
+                $("#score_text").css({'font-size': score_text_size + 'px'});
+
+                var countdown_text_size = (window_w - 320) / 20 + 22;
+                $(".countdown_text").css({'font-size': countdown_text_size + 'px'});
+
+                var question_text_size = (window_w - 320) / 24.615 + 20;
+                $("#question_text").css({'font-size': question_text_size + 'px'});
+
+                var choice_text_size = (window_w - 320) / 16 + 19;
+                $(".choice_text").css({'font-size': choice_text_size + 'px'});
+
+                //var input_area_left = 212 * zoom_ratio;
+                //var draw_lots_top = 940 * zoom_ratio;
+                //var draw_lots_left = 469 * zoom_ratio;
+
+                //$("#input_name").css({'top': input_area_top+'px', 'left': input_area_left+'px', 'display': 'block'});
+                
+            }
+
+            function draw_lots_btn_twinkle(){
+                if($("#skip_btn img").hasClass('highlight')){
+                    $("#skip_btn img").removeClass('highlight');
+                    $("#skip_btn img").attr('src', '/media/game/banana_vs_tomato/img/skip.png');
+                }
+                else{
+                    $("#skip_btn img").addClass('highlight');
+                    $("#skip_btn img").attr('src', '/media/game/banana_vs_tomato/img/skip_highlight.png');
+                }
+            }
+
+            var questions = [
+                {
+                    'question': '下列橙蜜香小番茄所含的營養素中，哪一種營養素是一般番茄含量的三倍？',
+                    'choices': ['茄紅素', '維生素A', '維生素B', '維生素C'],
+                    'answer': 4,
+                    'type': '營養類'
+                },
+                {
+                    'question': '嬌嬌蕉聽說膠原蛋白是讓皮膚水噹噹的主要成分，請問她要怎樣才能獲取膠原蛋白？',
+                    'choices': ['吃雞腳', '吃水果補充維生素C', '抹膠原蛋白保養品', '喝膠原蛋白飲'],
+                    'answer': 2,
+                    'type': '營養類-女性'
+                },
+                {
+                    'question': '請問茄紅素最主要的保健功能是什麼？',
+                    'choices': ['抗氧化', '促進消化','促進膠原蛋白增生', '防止視網膜黃斑退化'],
+                    'answer': 1,
+                    'type': '營養類'
+                },
+                {
+                    'question': '蕃茄中「不能」促進消化的成分是？',
+                    'choices': ['檸檬酸', '維生素C', '膳食纖維', '蘋果酸'],
+                    'answer': 2,
+                    'type': '消化類'
+                },
+                {
+                    'question': '下列哪一個不是番茄的別名？',
+                    'choices': ['狼桃', '西紅柿', '番石榴', '愛情蘋果'],
+                    'answer': 3,
+                    'type': '知識類'
+                },
+                {
+                    'question': '嬌嬌蕉有一天在做番茄炒蛋，蘋果哥說一般來說蔬果的營養素經過烹煮容易流失，建議她下次生食，請問蘋果哥說得對嗎？',
+                    'choices': ['對', '不對','半對半錯'],
+                    'answer': 3,
+                    'type': '營養類'
+                },  
+                {
+                    'question': '以下哪一項「不是」茄紅素的保健功效呢？',
+                    'choices': ['保護心血管', '預防某些癌症', '預防眼部病變', '阻擋紫外線傷害皮膚'],
+                    'answer': 3,
+                    'type': '營養類'
+                },
+                {
+                    'question': '番茄雖然營養，不過吃的時機也有學問，請問哪個時間吃番茄最適當？',
+                    'choices': ['飯前', '睡前', '飯後','下午茶'],
+                    'answer': 3,
+                    'type': '營養類'
+                },
+                {
+                    'question': '橙蜜香小番茄中富含的 β-胡蘿蔔素適量攝取有什麼保健功效呢？',
+                    'choices': ['保護眼睛', '鞏固牙齒', '皮膚白皙', '幫助消化'],
+                    'answer': 1,
+                    'type': '營養類'
+                },
+                {
+                    'question': '請問橙蜜香小番茄每年的產期大致是幾月開始？',
+                    'choices': ['11 月', '3 月', '6 月', '9 月'],
+                    'answer': 1,
+                    'type': '知識類'
+                },
+                {
+                    'question': '請問台灣哪個地區因為地方政府有計畫輔導，加上環境條件優良，已成為橙蜜香小番茄代表性產地？',
+                    'choices': ['雲林口湖', '彰化溪湖', '高雄美濃', '嘉義竹崎'],
+                    'answer': 3,
+                    'type': '知識類'
+                },
+                {
+                    'question': '為了因應近年來層出不窮的農產品安全事件所推出的”農產品產銷履歷制度”包含下列哪一個重要的涵義？',
+                    'choices': ['生產原料以國產品為主', '良好農業規範的實施與驗證', '農地不使用任何化學肥料', '無毒有機'],
+                    'answer': 2,
+                    'type': '知識類'
+                },
+                {
+                    'question': '香蕉人聽說茄紅素對於健康非常不錯，請問如果以攝取茄紅素為目標的話，下列哪一種吃法可以獲取最多的茄紅素？',
+                    'choices': ['做成凱薩沙拉生吃', '番茄炒蛋', '自己打成番茄汁喝', '熬成番茄醬配義大利麵吃'],
+                    'answer': 4,
+                    'type': '健康類'
+                }
+            ];
+
+            var question_title = ['A', 'B', 'C', 'D'];
+
+            function load_question(index){
+                if(typeof(index) === 'undefined'){
+                    index = 1;
+                }
+                if(index-1 > questions.length){
+                    index = questions.length -1;
+                }
+                current_question_index = index;
+
+                var question = questions[index];
+
+                countdown();
+
+                $(".choice").attr('src', '/media/game/banana_vs_tomato/img/choice_bk.png');
+
+                $("#question_text").text(question['question']);
+                $(".choice").hide();
+                for(var i=0; i<question['choices'].length; ++i){
+                    $(".choice_text").eq(i).text(question_title[i] + '. ' + question['choices'][i]);
+                    $(".choice").eq(i).show();
+                }
+
+                switch(question['type']) {
+                    case '營養類':
+                        $(".illus").attr('src', '/media/game/banana_vs_tomato/img/illus_1.png');
+                        break;
+                    case '知識類':
+                        $(".illus").attr('src', '/media/game/banana_vs_tomato/img/illus_2.png');
+                        break;
+                    case '消化類':
+                        $(".illus").attr('src', '/media/game/banana_vs_tomato/img/illus_3.png');
+                        break;
+                    case '健康類':
+                        $(".illus").attr('src', '/media/game/banana_vs_tomato/img/illus_4.png');
+                        break;
+                    case '營養類-女性':
+                        $(".illus").attr('src', '/media/game/banana_vs_tomato/img/illus_5.png');
+                        break;
+                    default:
+                        $(".illus").attr('src', '/media/game/banana_vs_tomato/img/illus_1.png');
+                }
+
+            }
+
+            function get_answer(){
+                return questions[current_question_index]['answer'];
+            }
+
+            function check_answer(choice){
+                choice = parseInt(choice);
+                if(choice == questions[current_question_index]['answer']){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+
+            var correct_once = false;
+            var correct_twice = false;
+            var correct_three_times = false;
+            var correct_four_times = false;
+            var correct_five_times = false;
+
+            var wrong_once = false;
+            var wrong_twice = false;
+            var wrong_three_times = false;
+
+            // 3 times up has bonus score
+            function check_continuous_correct(){
+                wrong_once = false;
+                wrong_twice = false;
+                wrong_three_times = false;
+
+                // 0 + 1
+                if(correct_once == false){
+                    correct_once = true;
+                    console.log('答對一題');
+                }
+                // 1 + 1
+                else if(correct_twice == false){
+                    correct_twice = true;
+                    console.log('答對兩題');
+                }
+                // 2 + 1
+                else if(correct_three_times == false){
+                    correct_three_times = true;
+                    alert('連續答對三題～厲害喔！');
+                    console.log('答對三題');
+                    // bonus
+                    add_score(50);
+                }
+                // 3 + 1
+                else if(correct_four_times == false){
+                    correct_four_times = true;
+                    // bonus
+                    alert('連續答對四題～簡直神技！');
+                    console.log('答對四題');
+                    add_score(100);
+                }
+                else if(correct_five_times == false){
+                    correct_five_times = true;
+                    // bonus
+                    alert('連續答對五題～香蕉人對你佩服得五體投地！');
+                    console.log('答對五題');
+                    add_score(200);
+                }
+            }
+
+            // 3 continuous wrong --> out
+            // if current question is wrong
+            function check_continuous_wrong(){
+                correct_once = false;
+                correct_twice = false;
+                correct_three_times = false;
+                correct_four_times = false;
+                correct_five_times = false;
+
+                if(wrong_once == false){
+                    wrong_once = true;
+                }
+                else if(wrong_twice == false){
+                    wrong_twice = true;
+                }
+                else if(wrong_three_times == false){
+                    alert('連續打錯三題，喪失資格！');
+                    document.location.href = '/banana_vs_tomato/result?level=finish';
+                    stop_countdown();
+                    return 'stop';
+                }
+            }
+
+            function correct_audio(){
+                correct_audio_dom.play();
+            }
+
+            function wrong_audio(){
+                wrong_audio_dom.play();
+            }
+
+            function countdown_audio(){
+                var audio = new Audio('/media/game/banana_vs_tomato/audio/countdown.m4a?version={{version}}');
+                audio.play();
+            }
+
+            var ticktock_audio_dom = new Audio('/media/game/banana_vs_tomato/audio/ticktock.m4a?version={{version}}');
+
+            function ticktock_audio(){
+                ticktock_audio_dom.addEventListener('ended', function() {
+                    this.currentTime = 0;
+                    this.play();
+                }, false);
+                ticktock_audio_dom.play();
+            }
+
+            function pause_ticktock_audio(){
+                ticktock_audio_dom.pause();
+            }
+            
+            function getRandom(minNum, maxNum) {    //取得 minNum(最小值) ~ maxNum(最大值) 之間的亂數
+                return Math.floor( Math.random() * (maxNum - minNum + 1) ) + minNum;
+            }
+
+            function getRandomArray(minNum, maxNum, n) {    //隨機產生不重覆的n個數字
+                var rdmArray = [n];     //儲存產生的陣列
+             
+                for(var i=0; i<n; i++) {
+                    var rdm = 0;        //暫存的亂數
+             
+                    do {
+                        var exist = false;          //此亂數是否已存在
+                        rdm = getRandom(minNum, maxNum);    //取得亂數
+             
+                        //檢查亂數是否存在於陣列中，若存在則繼續回圈
+                        if(rdmArray.indexOf(rdm) != -1) exist = true;
+             
+                    } while (exist);    //產生沒出現過的亂數時離開迴圈
+             
+                    rdmArray[i] = rdm;
+                }
+                return rdmArray;
+            }
+
+            function add_score(amount){
+                var score = parseInt($("#score_text").text());
+                $('#score_text').text(score+amount);
+            }
+
+            function minus_score(amount){
+                var score = parseInt($("#score_text").text());
+                if(score - amount >= 0){
+                    $("#score_text").text(score-amount);
+                }
+                else{
+                    $("#score_text").text(0);
+                }
+            }
+
+            function correct_answer_score(){
+                if(remain_time >= 8){
+                    add_score(100);
+                }
+                else if(remain_time < 8 && remain_time >= 4){
+                    add_score(60);
+                }
+                else{
+                    add_score(30);
+                }
+            }
+
+            function wrong_answer_score(){
+                minus_score(70);
+            }
+
+            function timeout_score(){
+                minus_score(50);
+            }
+
+            function skip_score(){
+                minus_score(50);
+            }
+
+            var original_remain_time = {{original_remain_time}};
+            var remain_time = original_remain_time;
+            var remain_time_counter = 0;
+
+            var current_question_index = 0;
+
+            var question_amount = 5
+
+            var question_index_list = getRandomArray(0, questions.length-1, question_amount);
+
+
+            var init_countdown_counter = 0;
+
+            function remain_time_check(){
+                remain_time = remain_time - 1;
+                if(remain_time < 4){
+                    $("#countdown img").attr('src', '/media/game/banana_vs_tomato/img/countdown_5.png');
+                }
+                else if(remain_time < 6){
+                    $("#countdown img").attr('src', '/media/game/banana_vs_tomato/img/countdown_4.png');
+                }
+                else if(remain_time < 9){
+                    $("#countdown img").attr('src', '/media/game/banana_vs_tomato/img/countdown_3.png');
+                }
+                else if(remain_time < 12){
+                    $("#countdown img").attr('src', '/media/game/banana_vs_tomato/img/countdown_2.png');
+                }
+
+                $(".countdown_text").text(remain_time);
+                if(remain_time == 0){
+                    alert('時間到');
+                    timeout_score();
+                    stop_countdown();
+                    load_next_question();
+                }
+            }
+
+            function stop_countdown(){
+                clearInterval(remain_time_counter);
+                remain_time = original_remain_time;
+                $(".countdown_text").text(remain_time);
+                $('#skip_btn img').off('click');
+            }
+
+            function reset_countdown(){
+                remain_time = original_remain_time;
+                $(".countdown_text").text(remain_time);
+            }
+
+            function countdown(){
+                remain_time_counter = setInterval('remain_time_check();', 1000);
+            }
+
+            function load_next_question(){
+                $(".choice").find('img').attr('src', '/media/game/banana_vs_tomato/img/choice_bk.png');
+                $("#countdown img").attr('src', '/media/game/banana_vs_tomato/img/countdown_1.png')
+                var nth_question = question_index_list.indexOf(current_question_index);
+                if(nth_question < question_amount-1){
+                    load_question(question_index_list[nth_question+1]);
+                    reset_countdown();
+                }
+                else{
+                    alert('答題結束～ 請稍後結果！');
+                    check_result();
+                    $(".choice_text").off('click');
+                    $(".choice").find('img').attr('src', '/media/game/banana_vs_tomato/img/choice_bk.png');
+                }
+            }
+
+            function check_result(){
+                var score = parseInt($("#score_text").text());
+                if(score >= 750){
+                    document.location.href = '/banana_vs_tomato/result?level=gold&score='+score;
+                }
+                else if(score < 750 && score >= 370){
+                    document.location.href = '/banana_vs_tomato/result?level=silver&score='+score;
+                }
+                else if(score < 370 && score >= 250){
+                    document.location.href = '/banana_vs_tomato/result?level=copper&score='+score;
+                }
+                else{
+                    document.location.href = '/banana_vs_tomato/result?level=finish&score='+score;
+                }
+            }
+
+            function init_countdown_check(){
+                var init_countdown = parseInt($("#init_countdown_counter").text());
+                init_countdown = init_countdown - 1;
+
+                $("#init_countdown_counter").text(init_countdown);
+                if(init_countdown == 0){
+                    $("#init_countdown_counter").fadeOut();
+                    clearInterval(init_countdown_counter);
+                    current_question_index = question_index_list[0];
+                    load_question(question_index_list[0]);
+                    ticktock_audio();
+                }
+            }
+
+            function init_countdown(){
+                countdown_audio();
+                init_countdown_counter = setInterval('init_countdown_check();', 1000);
+            }
+
+            var btn_twinkle = 0;
+
+            $(document).ready(function() {
+                $("#init_countdown_counter").height(screen.height);
+                $("#init_countdown_counter").css({'font-size': screen.height+'px'});
+                init_countdown();
+
+                $("#skip_btn img").on('mouseover', function(){
+                    $(this).attr('src', '/media/game/banana_vs_tomato/img/skip_highlight.png');
+                });
+                $("#skip_btn img").on('mouseout', function(){
+                    $(this).attr('src', '/media/game/banana_vs_tomato/img/skip.png');
+                });
+
+                $("#skip_btn").on('click', function(){
+                    skip_score();
+                    load_next_question();
+                });
+
+                $(".choice_text").on('click', function(){
+                    $(".choice").find('img').attr('src', '/media/game/banana_vs_tomato/img/choice_bk.png');
+                    $(this).parents('.choice').find('img').attr('src', '/media/game/banana_vs_tomato/img/choice_bk_highlight.png');
+                
+                    var result = check_answer($(this).parents('.choice').attr('id'));
+                    var stop_game = false;
+                    if(result == true){
+                        correct_audio();
+                        correct_answer_score();
+                        check_continuous_correct();
+                    }
+                    else{
+                        wrong_audio();
+                        wrong_answer_score();
+                        stop_game = check_continuous_wrong();
+                    }
+                    stop_countdown();
+                    if(stop_game != 'stop'){
+                        load_next_question();
+                    }
+                });
+
+                LayoutAdjust();
+
+                $(window).resize(function(){
+                    LayoutAdjust();
+                });
+            });
+        </script>
+        <!-- END JAVASCRIPTS -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-59695012-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

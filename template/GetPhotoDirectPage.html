@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="香蕉人笑容蒐集計畫!">
+    <meta name="keywords" content="香蕉人,笑容蒐集計畫,香蕉相機,三博鹿科技">
+
+    <meta property="og:title" content="香蕉人笑容蒐集計畫!"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="{{imgurl}}" />
+    <meta property="og:url" content="http://{{host}}/media/img/laugh_collect_desktop_bk.png" />
+    <meta property="og:description" content="用100種方法，蒐集1,000,000個笑容～" />
+    <meta property="og:site_name" content="香蕉人笑容蒐集計畫" />
+
+    <title>香蕉人笑容蒐集計畫!</title>
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+  </head>
+  <body>
+    <div id="input_bar" style="margin-top: 30px; text-align: center; width: 60%; height: 30px; border: 0px solid black; margin-left: auto; margin-right: auto;">
+        <input type="text" style="width: 100%; height: 120px; font-size: 70px">
+        <button id="submit" type="button" style="padding: 5px; margin-top: 20px; font-size: 60px">拿照片</button>
+    </div>
+    <script type="text/javascript">
+      $("#input_bar input").on("keydown", function(e){
+          if(e.keyCode == 13){
+              fetch_photo();
+          }
+      });
+      $("#submit").on('click', function(){
+        fetch_photo();
+      });
+
+      $("body").on("click", "#fb_share", function(){
+          var imgurl = $("#take_photo_result").attr('src');
+          window.open('https://www.facebook.com/sharer/sharer.php?app_id='+262124867259600+'&u=http://{{host}}/download_photo?imgurl='+imgurl+'&display=popup', 'FacebookShareWindow', 'height=400, width=600, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no, fullscreen=no');
+      });
+
+      function fetch_photo(){
+        var fetch_code = $("#input_bar input").val();
+        $.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            url: "https://api.sambardeer.co/event_posts/"+fetch_code+".js",
+            //url: "/api/fake_api",
+            data: {},
+            // Work with the response
+            success: function( response ) {
+              if(response.photo){
+                render_photo = true;
+                var imgurl = 'https://api.sambardeer.co' + response.photo;
+                $("body").html('<button id="fb_share" type="button" style="padding: 5px; margin-top: 20px; margin-bottom: 20px; font-size: 60px">分享到臉書</button><img id="take_photo_result" width="100%" src="'+imgurl+'" />');
+              }
+              else{
+                  alert('哦喔～ 你輸入的號碼可能有錯喔！請洽服務人員');
+              }
+            }
+          });
+      }
+    </script>
+  </body>
+</html>

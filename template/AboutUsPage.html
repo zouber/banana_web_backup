@@ -1,0 +1,69 @@
+{% extends "Base.html" %}
+{% block body %}
+
+{% include "segment/TabJS.html" %}
+
+<div id="body">
+  <div id="tabs" style="margin-left: 50px">
+    <div id="tab1" class="tab ordinary_focus focus">{{lang|translation('SambarDeerTech')}}</div>
+    <div id="tab2" class="tab">{{lang|translation('BananaMan')}}</div>
+    <div id="tab3" class="tab" style="border-right: 2px solid #fff100">{{lang|translation('BananaCamera')}}</div>
+    <div class="clear"></div>
+  </div>
+  <div id="innerpage_content_block" style="margin-left: 50px; margin-right: 50px; margin-top: -2px; border: 2px solid #fff100; margin-bottom: 40px; padding-bottom: 40px">
+    <table id="tab1_content" width="100%" class="tab_content">
+      <tr>
+        <td><img src="/media/img/sambardeer_illus.png" style="margin-left: 30px" /></td>
+        <td>
+          <div style="margin-left: 39px; margin-right: 40px; border: none">
+            三博鹿科技是一家結合角色經營以及程式開發的專門公司，以設計出適合在網路和互動APP上帶給人歡樂的角色為目標。<br/><br/>
+
+            角色的經營以及程式開發就像是三博鹿科技的兩隻手，左手是設計出適合在社群媒體、通訊軟體、貼圖上讓使用者產生共鳴的角色；右手是透過網路、APP、互動設備讓角色像是擁有一個放大器在新媒體上更發揮更大的影響力。<br/><br/>
+
+            三博鹿科技的名稱取自於台灣水鹿的英文 Sambar Deer，我們相信持續的透過優質有共鳴的角色設計和使用新媒體為放大器，可以讓台灣的角色發揮魅力帶給更多人歡樂。
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <table id="tab2_content" width="100%" class="tab_content" style="display: none">
+      <tr>
+        <td><img src="/media/img/banana_man_illus.jpg" style="margin-left: 30px" /></td>
+        <td>
+          <div style="margin-left: 39px; margin-right: 40px; border: none">
+            2014年香蕉人(打屁情侶專用)靜態貼圖-Line貼圖小舖11天冠軍<br/>
+            2014年LINE全球TOP50貼圖<br/>
+            2015年香蕉人(打屁好友專用)動態貼圖- Line貼圖小舖8天冠軍(持續累進中)<br/>
+            <br/>
+            香蕉人家族為三博鹿科技有限公司(Sambar Deer)於2014年創造出的角色，是我們對角色的第一個嘗試。<br/>
+            由於台灣是水果王國，香蕉又是水果之王，我們就選定了香蕉作為第一個主要角色，創作了香蕉人、他的女朋友嬌嬌蕉，接著，以Line為舞台，藉由豐富的情緒表現和可愛的外型，在Line貼圖市集上獲得巨大的迴響。<br/>
+            <br/>
+            目前以從虛擬世界出發的香蕉人，也開始進行實體商品的拓展和各種嘗試，希望未來能成為「LINE 世代角色」中的佼佼者，並進一步成為台灣的代表角色，成為每個人的好朋友。<br/>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <table id="tab3_content" width="100%" class="tab_content" style="display: none; margin-top: 15px">
+      <tr>
+        <td>
+          <!--<iframe width="560" height="315" style="margin-top: 57px; margin-left: 30px" src="https://www.youtube.com/embed/xynvZKmYOcE" frameborder="0" allowfullscreen></iframe>-->
+          <iframe src="//player.vimeo.com/video/118051003" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="margin-left: 35px"></iframe>
+        </td>
+        <td>
+          <div style="margin-left: 39px; margin-right: 40px; border: none">
+            iPhone 版本上架第一個月下載數 20 萬！<br/>
+            目前下載量破150萬<br/>
+            超過100套設計師貼圖<br/>
+            多套華康手寫字體<br/>
+            <br/>
+            不會說故事的照片根本是無聊。香蕉相機是一個輕便的相機軟體，它會自動幫你的照片加上地點和日期，只要輸入照片標題、選擇濾鏡效果、加上優雅相框，30秒，就可以讓你的每張照片，都更漂亮、更有故事。<br/>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

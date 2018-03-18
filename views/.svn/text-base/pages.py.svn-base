@@ -1,0 +1,17 @@
+from libs.handlers import *
+from db.models import *
+
+class MainPage(DirectHandler):
+    def get(self):
+        self.HtmlResponse('index.html', {'page_name': 'MainPage'})
+
+class BidPage(DirectHandler):
+    def get(self, oid):
+        product = Product.query_basic_product_info(oid)
+        if product:
+            vendor_id = product['fb_page_id']
+            vendor = Vendor.query_item(vendor_id)
+            brand = vendor.brand_name
+            self.HtmlResponse('BidPage.html', {'RID': 'BidPage', 'oid': oid, 'product': product})
+        else:
+            self.HtmlResponse('index.html', {'page_name': 'product not exist'})

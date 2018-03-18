@@ -1,0 +1,45 @@
+from libs.handlers import *
+
+class QueryProduct(DirectHandler):
+    def get(self):
+    	status = True
+    	data = {'id': 1}
+        self.JsonResponse(status, data)
+
+# input uid, output vid(empty string if this uid is not vendor)
+# queryUserAdminAuth --> we used to store user and vendor relation at UserVendorMapping table, but from now on(2014/03/26), we store those info at VendorAdmin table
+class queryUserAdminAuth(DirectHandler):
+    def post(self):
+        uid = self.request.get('uid')
+        
+        response = {}
+        
+        if not uid:
+            status = False
+            response['msg'] = 'no user id input'
+            self.JsonResponse(status, response)
+        
+        if uid in self.checkSuperAdmin():
+            status = True
+            response['msg'] = 'super administrator'
+            # 573061288 --> moogoo
+            if uid == '100000703046844' or uid == '573061288':
+                response['data'] = {'vid': '217050608383796'}
+            else:
+                response['data'] = {'vid': '181105081925199'}
+        else:
+            # check whether the current user is vendor administrator
+            admins_item = VendorAdmin.check_whether_user_is_admin(uid)
+
+            if admins_item:
+                if len(admins_item) > 0:
+                    admin = admins_item[0]
+                    status = True
+                    response['msg'] = 'vendor'
+                    response['data'] = {'vid': admin.vendor_pid}
+            else:
+                status = False
+                response['msg'] = 'not administrator'
+                response['data'] = {'uid': uid}
+                
+        self.JsonResponse(status, response)

@@ -1,0 +1,97 @@
+{% extends "Base.html" %}
+{% block body %}
+
+{% block include_css %}
+{% endblock %}
+
+{% block title %}
+<title>歡迎光臨香蕉人笑容收集計畫：）</title>
+{% endblock %}
+
+<div id="container" style="width: 93%; margin-top: 10px; margin-bottom: -70px; margin-left: auto; margin-right: auto">
+    <img id="background_img" width="100%" src="/media/img/laugh_collect_desktop_bk.png">
+    <div id="input_bar" style="width: 360px; height: 30px; border: 0px solid black; position: relative; top: -320px; margin-left: auto; margin-right: auto;">
+        <input type="text" style="width: 360px; height: 30px">
+    </div>
+    <div id="submit_btn" style="width: 100px;position: relative;top: -320px;margin-left: auto;margin-right: auto;margin-top: 15px;cursor: pointer;">
+        <img src="/media/img/laugh_collect_submit.png" width="100%">
+    </div>
+</div>
+
+<script type="text/javascript">
+    var render_photo = false;
+    $(window).resize(function(){
+        layout_adjust();
+    });
+
+    $(document).ready(function(){
+        layout_adjust();
+        $("#submit_btn").on("click", function() {
+          fetch_photo();
+        });
+
+        $("#input_bar input").on("keydown", function(e){
+            if(e.keyCode == 13){
+                fetch_photo();
+            }
+        });
+        $("body").on("click", "#fb_share", function(){
+            var imgurl = $("#take_photo_result img").attr('src');
+            window.open('https://www.facebook.com/sharer/sharer.php?app_id='+262124867259600+'&u=http://{{host}}/download_photo?imgurl='+imgurl+'&display=popup', 'FacebookShareWindow', 'height=400, width=600, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no, fullscreen=no');
+        });
+    })
+
+    function fetch_photo(){
+      var fetch_code = $("#input_bar input").val();
+      $.ajax({
+          type: "GET",
+          dataType: "jsonp",
+          url: "https://api.sambardeer.co/event_posts/"+fetch_code+".js",
+          //url: "/api/fake_api",
+          data: {},
+          // Work with the response
+          success: function( response ) {
+            if(response.photo){
+              render_photo = true;
+              var imgurl = 'https://api.sambardeer.co' + response.photo;
+              $("#background_img").attr('src', '/media/img/laugh_collect_desktop_bk_no_title.png');
+              var html = '\
+                <div id="take_photo_result" style="width: 30%; position: relative; margin-left: auto; margin-right: auto; top: -520px">\
+                    <img width="100%" src="'+imgurl+'" />\
+                </div>\
+                <div id="btns" style="position: relative; top: -520px; width: 30%; cursor: pointer; margin-left: auto; margin-right: auto; text-align: center">\
+                    <a href="'+imgurl+'" download="MyImage"><img src="/media/img/laugh_collect_mobile_download_btn.png" width="40%" border="0" /></a>\
+                    <img id="fb_share" src="/media/img/laugh_collect_mobile_share_btn.png" width="40%" />\
+                </div>';
+              $("#background_img").after(html);
+              $("#input_bar,#submit_btn").remove();
+              var offset = $("#take_photo_result").height();
+              $("#container").css('height', $("#container").height()-offset+40+'px');
+              layout_adjust();
+            }
+            else{
+                alert('哦喔～ 你輸入的號碼可能有錯喔！請洽服務人員');
+            }
+          }
+        });
+    }
+
+    function layout_adjust(){
+        // bring the input field and submit btn up how many pixels, depand on this ratio to bk image height
+        var position_ratio = 0.316;
+        var bk_img_width = $("#background_img").width();
+        $("#input_bar,#submit_btn").css('top', -1*bk_img_width*position_ratio+'px');
+
+        // after photo render
+        var position_ratio_2 = 0.4837;
+        $("#take_photo_result,#btns").css('top', -1*bk_img_width*position_ratio_2+'px');
+
+        /*
+        if(render_photo == true){
+            
+            //.css('margin-bottom', -1*($("#take_photo_result").height()+$("#btns").height())+30+'px');
+        }*/
+    }
+</script>
+
+{% endblock %}

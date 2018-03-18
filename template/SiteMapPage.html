@@ -1,0 +1,102 @@
+{% extends "Base.html" %}
+{% block body %}
+
+<style type="text/css">
+  ul{
+    list-style-type: none;
+    padding: 0px; /* reset ul li style */
+    text-align: left;
+  }
+  .main_category{
+    font-size: 16pt;
+    font-weight: 600;
+    float: left;
+    padding: 10px 20px;
+    border-right: 2px solid #fff100;
+    min-height: 160px;
+  }
+  .main_category.last{
+    border-right: none;
+  }
+  .main_category ul{
+    margin-top: 15px;
+  }
+  .sub_category{
+    font-size: 12pt;
+    line-height: 30pt;
+    font-weight: 400;
+    background: url(/media/img/star_icon.png) no-repeat -4px 7px;
+    padding-left: 18px;
+  }
+  .main_category a{
+    color: black;
+  }
+  a{
+    text-decoration: none;
+  }
+  .main_category a:hover, .sub_category a:hover{
+    text-decoration: underline;
+  }
+  .sub_category a{
+    color: #585956;
+  }
+</style>
+
+<div id="body" style="text-align: center">
+  <div id="sitemap" style="background: url(/media/img/sitemap_bg.jpg) no-repeat">
+    <ul style="position: relative; top: 95px; left: 10px">
+      <li class="main_category">
+        <a href="/">首頁</a>
+      </li>
+      <li class="main_category">
+        <a href="/news">香蕉新聞</a>
+        <ul>
+          <li class="sub_category"><a href="/news#tab1">HOT NEWS</a></li>
+          <li class="sub_category"><a href="/news#tab2">媒體報導</a></li>
+          <li class="sub_category"><a href="/news#tab3">歷史活動</a></li>
+        </ul>
+      </li>
+      <li class="main_category">
+        <a href="/about_us">關於我們</a>
+        <ul>
+          <li class="sub_category"><a href="/about_us#tab1">三博鹿科技</a></li>
+          <li class="sub_category"><a href="/about_us#tab2">香蕉人</a></li>
+          <li class="sub_category"><a href="/about_us#tab3">香蕉相機</a></li>
+        </ul>
+      </li>
+      <li class="main_category">
+        <a href="/story">故事介紹</a>
+        <ul>
+          <li class="sub_category"><a href="/story#tab1">背景故事</a></li>
+          <li class="sub_category"><a href="/story#tab2">角色介紹</a></li>
+          <li class="sub_category"><a href="/story#tab3">SD遊樂園</a></li>
+        </ul>
+      </li>
+      <li class="main_category">
+        <a href="/product">好物</a>
+        <ul>
+          <li class="sub_category"><a href="/product#tab1">虛擬商品</a></li>
+          <li class="sub_category"><a href="/product#tab2">實體商品</a></li>
+        </ul>
+      </li>
+      <li class="main_category">
+        <a href="/download">下載</a>
+        <ul>
+          <li class="sub_category"><a href="/download#tab1">FB 封面</a></li>
+          <li class="sub_category"><a href="/download#tab2">手機桌布</a></li>
+          <li class="sub_category"><a href="/download#tab3">電腦桌布</a></li>
+        </ul>
+      </li>
+      <li class="main_category last">
+        <a href="/cooperation">合作</a>
+        <ul>
+          <li class="sub_category"><a href="/cooperation#tab1">合作案例</a></li>
+          <li class="sub_category"><a href="/cooperation#tab2">合作聯絡</a></li>
+        </ul>
+      </li>
+    </ul>
+    
+  </div>
+</div>
+
+{% endblock %}

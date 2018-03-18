@@ -1,0 +1,166 @@
+{% extends "Base.html" %}
+{% block body %}
+
+<div id="body">
+  <div id="lightbox" style="overflow: hidden">
+    <table width="100%" height="100%">
+      <tr>
+        <td width="88">
+          <div style="float: left; margin-left: 27px"><img id="to_left_btn" class="btn" src="/media/img/to_left_btn.png" /></div>
+        </td>
+        <td id="slide_content" align="center">
+          <img class="slide_pic focus" src="/media/img/{{lang}}/banana_man_intro.png?version={{version}}" title="{{lang|translation('AboutBananaMan')}}" />
+          <img class="slide_pic hide" src="/media/img/{{lang}}/banana_girl_intro.png?version={{version}}" title="{{lang|translation('AboutBananaGirl')}}" />
+          <img class="slide_pic hide" src="/media/img/sd_planet_intro.png" title="{{lang|translation('AboutSDPlanet')}}" />
+        </td>
+        <td width="70">
+          <div style="float: right; margin-right: 27px"><img id="to_right_btn" class="btn" src="/media/img/to_right_btn.png" /></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="intro">
+   <table width="100%">
+     <tr>
+       <td class="left_part" valign="top">
+         <div class="sambardeer_intro">
+          <div id="sambardeer_logo_1" style="float: left"></div>
+          <div id="intro_content" style="width: 715px; float: left">
+              {{dict['CompanyIntro']}}
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="hot_news" style="margin-top: 40px; margin-left: 28px">
+          <table style="border-collapse: separate; border-spacing: 0px 15px">
+            {% for item in news %}
+            <tr class="news_item" style="margin-top: 30px">
+              <td valign="middle">
+                <div style="width: 120px; height: 46px; overflow: hidden">
+                  <img src="{{item.thumb_url}}" width="120" />
+                </div>
+              </td>
+              <td>
+                <div style="float: left; letter-spacing: 5px; margin-left: 20px">
+                  <img src="/media/img/news_item_icon.png" />
+                  <span style="font-size: 9pt; line-height: 18pt; color: #585956">
+                    {{item.news_time|datetimeformat}}
+                  </span>
+                  <br/>
+                  <span style="font-size: 14pt">{{item.title}}</span><br/>
+                  <span style="font-size: 11pt; line-height: 18pt; color: #585956">{{item.subtitle}}</span> ...<a class="read_more_news" href="/news">more</a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+       </td>
+       <td class="right_part">
+         <div style="background: url(/media/img/mainpage_deco1.png) repeat"></div>
+       </td>
+     </tr>
+   </table>
+  </div>
+</div>
+<script type="text/javascript">
+  var marquee = 0;
+  function layout_adjust(){
+    var window_width = $(window).width();
+    var slide_content_width = window_width - 88 - 70;
+    $("#slide_content").width(slide_content_width);
+    // mobile view adjust
+    //var slide_content_width = $("#slide_content").width();
+    //console.log(slide_content_width);
+    var slide_pic_width = 1000;
+    // in case screen width too small
+    if(slide_pic_width > slide_content_width){
+      $(".slide_pic").attr('width', slide_content_width);
+      $("#lightbox").height($(".slide_pic").height());
+    }
+    else{
+      $(".slide_pic").attr('width', 1000);
+      $("#lightbox").height($(".slide_pic").height());
+    }
+
+    // for lower content adjust
+    var hot_news_content_width = $(".hot_news table").width();
+    var intro_content_width = $('#intro_content').width() + $("#sambardeer_logo_1").width() + 70;    
+    var right_part_width = $(window).width() - intro_content_width;
+    $(".right_part div").width(right_part_width);
+    $(".right_part div").height($(".sambardeer_intro").height() + $(".hot_news").height() + 35);
+
+    // footer adjust
+    $("#footer").css('margin-top', '-15px');
+  }
+
+  function prev_banner(){
+    var prev_slide = $('.slide_pic.focus').prev();
+    var how_many_slide = $('.slide_pic').length;
+    if(prev_slide.length == 0){
+      prev_slide = $('.slide_pic').eq(how_many_slide-1);
+    }
+
+    $('.slide_pic.focus').fadeOut(function(){
+      $('.slide_pic.focus').removeClass('focus');
+      prev_slide.addClass('focus').fadeIn();
+    });
+  }
+
+  function next_banner () {
+    var next_slide = $('.slide_pic.focus').next();
+    if(next_slide.length == 0){
+      next_slide = $('.slide_pic').eq(0);
+    }
+
+    $('.slide_pic.focus').fadeOut(function(){
+      $('.slide_pic.focus').removeClass('focus');
+      next_slide.addClass('focus').fadeIn();
+    });
+  }
+
+  function stop_banner() {
+    clearInterval(marquee);
+  }
+
+  function start_banner(){
+    marquee = setInterval(function(){
+      next_banner();
+    }, 8000);
+  }
+
+  $(document).ready(function(){
+    setInterval(function(){
+      layout_adjust();
+    }, 800);
+
+    start_banner();
+  });
+
+  $(document).on('mouseover', '#slide_content', function(){
+    stop_banner();
+  });
+
+  $(document).on('mouseout', '#slide_content', function(){
+    start_banner();
+  });
+
+  $(document).on('click', '#to_right_btn', function(){
+      stop_banner();
+      next_banner();
+      start_banner();
+    });
+
+  $(document).on('click', '#to_left_btn', function(){
+      stop_banner();
+      prev_banner();
+      start_banner();
+    });
+
+  $(window).resize(function(){
+    layout_adjust();
+  });
+  
+</script>
+
+{% endblock %}

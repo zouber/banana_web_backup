@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>歡迎光臨三博鹿科技 - 最新消息瀏覽頁</title>
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px; width: 100%">
+      <table>
+        <th>
+          <td>種類</td>
+          <td>標題</td>
+          <td>副標題</td>
+          <td>地點</td>
+          <td>描述</td>
+          <td>日期</td>
+          <td>媒體名稱</td>
+          <td>圖片</td>
+        </th>
+        {% autoescape false %}
+        {% for item in news %}
+          <tr>
+            <td>{{item.category}}</td>
+            <td>{{item.title}}</td>
+            <td>{{item.subtitle}}</td>
+            <td>{{item.location}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.news_time}}</td>
+            {% if not item.media_name %}
+              <td>無媒體名稱</td>
+            {% else %}
+              <td>{{item.media_name}}</td>
+            {% endif %}
+
+            <td><img width="150" src="{{item.thumb_url}}" /></td>
+          </tr>
+        {% endfor %}
+        {% endautoescape %}
+      </table>
+  </body>
+</html>

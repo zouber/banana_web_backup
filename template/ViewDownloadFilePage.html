@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>歡迎光臨三博鹿科技 - Q圖下載</title>
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px">
+    {% if image %}
+        <img src="{{image.file_url}}=s{{image_container_size}}" />
+    {% else %}
+      <h1>沒有這個檔案噢～</h1>
+    {% endif %}
+  </body>
+</html>
+{% endautoescape %}

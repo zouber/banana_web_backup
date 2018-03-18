@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="歡迎光臨三博鹿科技!">
+    <meta name="keywords" content="香蕉人,香蕉相機,角色經濟,三博鹿科技">
+
+    <meta property="og:title" content="三博鹿科技官方網站！"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="http://www.sambardeer.co/media/img/sambardeer_illus.png" />
+    <meta property="og:url" content="http://www.sambardeer.co/" />
+    <meta property="og:description" content="三博鹿科技的名稱取自於台灣水鹿的英文 Sambar Deer，是一家結合角色經營以及程式開發的專門公司，我們相信持續的透過優質有共鳴的角色設計和使用新媒體為放大器，可以讓台灣的角色發揮魅力並帶給更多人歡樂。" />
+    <meta property="og:site_name" content="三博鹿科技" />
+
+    <title>歡迎光臨香蕉人笑容收集計畫：）</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    {% block include_css %}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="/media/css/base.css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script type="text/javascript" src="/media/js/jquery-ui/external/jquery/jquery.js"></script>
+    <!--<script type="text/javascript" src="/media/js/jquery-ui/jquery-ui.min.js"></script>-->
+  </head>
+  <body style="margin-left: 0px; margin-top: 0px; width: 100%; text-align: center; background: url(/media/img/laugh_collect_bk_seed.png)">
+    
+  </body>
+  <script type="text/javascript">
+    fetch_one_photo();
+
+    $(document).ready(function(){
+        setInterval(function(){
+            fetch_one_photo();
+        }, 6000);
+    });
+
+    function fetch_one_photo(){
+        $.ajax({
+          type: "GET",
+          dataType: "jsonp",
+          url: "https://api.sambardeer.co/event_posts.js",
+          data: {page: 1, page_size: 1},
+          // Work with the response
+          success: function( response ){
+            var w_height = $(window).height();
+            for(var i=0; i<response.length; ++i){
+                if(response[i].photo){
+                  var imgurl = 'https://api.sambardeer.co' + response[i].photo;
+                  if($("img[src='"+imgurl+"']").size() < 1){
+                    $("body").prepend('<img src="'+imgurl+'" height="'+w_height+'" /><div style="clear: both"></div>');
+                  }
+                }
+            }
+          }
+        });
+    }
+
+  </script>
+</html>
